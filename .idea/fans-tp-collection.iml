@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/fans-tp-api/application" isTestSource="false" packagePrefix="app\" />
       <excludeFolder url="file://$MODULE_DIR$/fans-tp-api/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/fans-tp-api/vendor/topthink/think-installer" />
+      <excludeFolder url="file://$MODULE_DIR$/fans-tp-api/vendor/topthink/think-migration" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

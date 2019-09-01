@@ -4,6 +4,7 @@
     <include_path>
       <path value="$PROJECT_DIR$/fans-tp-api/vendor/topthink/think-installer" />
       <path value="$PROJECT_DIR$/fans-tp-api/vendor/composer" />
+      <path value="$PROJECT_DIR$/fans-tp-api/vendor/topthink/think-migration" />
     </include_path>
   </component>
 </project>

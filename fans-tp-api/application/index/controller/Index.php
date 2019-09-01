@@ -4,6 +4,7 @@ namespace app\index\controller;
 use app\common\exception\BaseException;
 use app\common\reflex\Reflex;
 use app\common\util\ExceptionUtil;
+use think\facade\Hook;
 
 class Index
 {
@@ -51,6 +52,7 @@ class Index
     }
 
     public function ceshi(){
+        Hook::listen('logger', '创建了一个用户');
         halt(ExceptionUtil::ParseExceptionMap());
         throw new BaseException(ExceptionUtil::ParseExceptionMap());
     }
