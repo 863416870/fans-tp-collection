@@ -26,7 +26,7 @@ class ExceptionUtil
                         $errorCode=66667,
                         $code=400
     ){
-        self::setParam($message,$errorCode,$code);
+       return self::setParam($message,$errorCode,$code);
     }
     /**
      * 反射的对象/方法注释错误
@@ -36,7 +36,7 @@ class ExceptionUtil
                         $errorCode=66666,
                         $code=400
     ){
-        self::setParam($message,$errorCode,$code);
+        return self::setParam($message,$errorCode,$code);
     }
     /**
      *日志信息
@@ -45,7 +45,7 @@ class ExceptionUtil
                         $message="日志信息不能为空",
                         $errorCode=40001,
                         $code=400){
-        self::setParam($message,$errorCode,$code);
+        return self::setParam($message,$errorCode,$code);
     }
 
     public static function setParam($message,$errorCode,$code){

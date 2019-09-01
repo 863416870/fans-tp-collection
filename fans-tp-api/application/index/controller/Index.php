@@ -51,7 +51,7 @@ class Index
     }
 
     public function ceshi(){
-//        halt(ExceptionUtil::ParseExceptionMap());
+        halt(ExceptionUtil::ParseExceptionMap());
         throw new BaseException(ExceptionUtil::ParseExceptionMap());
     }
 }
