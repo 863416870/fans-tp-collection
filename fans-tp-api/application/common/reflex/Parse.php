@@ -51,10 +51,7 @@ class Parse
         try{
             $this->reflexContent =  $reflexContent;
         }catch (\Exception $exception){
-            throw new BaseException(
-                ExceptionUtil::$REFLEX_EXCEPTION_MAP[
-                ExceptionUtil::$REFLEX_EXCEPTION_MAP["msg"] = '初始化反射解析类失败~'
-                ]);
+            throw new BaseException(ExceptionUtil::ParseExceptionMap('初始化反射解析类失败'));
         }
     }
 
@@ -74,10 +71,7 @@ class Parse
             $this->data = $this->formatReflexParam($noteKeys,$paramValue);
             return $this->data;
         }catch (\Exception $exception){
-            throw new BaseException(
-                ExceptionUtil::$REFLEX_EXCEPTION_MAP[
-                ExceptionUtil::$REFLEX_EXCEPTION_MAP["msg"] = $exception->getMessage()
-                ]);
+            throw new BaseException(ExceptionUtil::ParseExceptionMap($exception->getMessage()));
         }
     }
 

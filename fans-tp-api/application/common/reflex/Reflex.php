@@ -10,8 +10,6 @@
 namespace app\common\reflex;
 
 use app\common\exception\BaseException;
-use app\common\reflex\ReflexModel;
-use app\common\reflex\Parse;
 use app\common\util\ExceptionUtil;
 
 class Reflex
@@ -44,8 +42,7 @@ class Reflex
             $this->setObject($object);
             if (!empty($action))$this->setAction($action);
         }catch (\Exception $exception){
-            throw new BaseException(
-                ExceptionUtil::$REFLEX_EXCEPTION_MAP);
+            throw new BaseException(ExceptionUtil::ReflexExceptionMap());
         }
     }
 
@@ -62,10 +59,7 @@ class Reflex
                 throw new \Exception('请修改php.ini配置：opcache.save_comments=1或直接注释掉此配置(无效请在 etc/php.d/ext-opcache.ini 文件中修改)');
             }
         }catch (\Exception $exception){
-            throw new BaseException(
-                ExceptionUtil::$REFLEX_EXCEPTION_MAP[
-                    ExceptionUtil::$REFLEX_EXCEPTION_MAP["msg"] = $exception->getMessage()
-                ]);
+            throw new BaseException(ExceptionUtil::ReflexExceptionMap($exception->getMessage()));
         }
     }
 
@@ -74,7 +68,7 @@ class Reflex
         try {
             if(!is_object($object)) throw new \Exception('需要一个类。作为参数~');
             $this->object = $object;
-            $this->reflex = new ReflexModel($this->object);
+            $this->reflex = new ReflexModle($this->object);
             $reflexDoc = $this->reflex->getDocComment();
             $this->parse = new Parse($reflexDoc);
             return $this;

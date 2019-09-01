@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
 
+use app\common\exception\BaseException;
 use app\common\reflex\Reflex;
+use app\common\util\ExceptionUtil;
 
 class Index
 {
@@ -46,5 +48,10 @@ class Index
             var_dump($authAnnotation);
 
         }
+    }
+
+    public function ceshi(){
+//        halt(ExceptionUtil::ParseExceptionMap());
+        throw new BaseException(ExceptionUtil::ParseExceptionMap());
     }
 }
