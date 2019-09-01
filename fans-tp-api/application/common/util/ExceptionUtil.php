@@ -20,6 +20,10 @@ class ExceptionUtil
 
     /**
      * 反射解析数据异常
+     * @param string $message 异常提示信息
+     * @param int $errorCode  异常状态码
+     * @param int $code       http状态码
+     * @return array
      */
     public static function ParseExceptionMap(
                         $message="解析数据时出现错误，请检查类·方法注释抒写方式",
@@ -30,6 +34,10 @@ class ExceptionUtil
     }
     /**
      * 反射的对象/方法注释错误
+     * @param string $message 异常提示信息
+     * @param int $errorCode  异常状态码
+     * @param int $code       http状态码
+     * @return array
      */
     public static function ReflexExceptionMap(
                         $message="反射的对象/方法注释错误",
@@ -40,6 +48,10 @@ class ExceptionUtil
     }
     /**
      *日志信息
+     * @param string $message 异常提示信息
+     * @param int $errorCode  异常状态码
+     * @param int $code       http状态码
+     * @return array
      */
     public static function LoggerExceptionMap(
                         $message="日志信息不能为空",
@@ -48,10 +60,18 @@ class ExceptionUtil
         return self::setParam($message,$errorCode,$code);
     }
 
+    /**
+     * 公共赋值方法
+     * @param string $message 异常提示信息
+     * @param int $errorCode  异常状态码
+     * @param int $code       http状态码
+     * @return array
+     */
     public static function setParam($message,$errorCode,$code){
         self::$param[self::CODE] = $code;
         self::$param[self::MESSAGE] = $message;
         self::$param[self::ERROR_CODE] = $errorCode;
         return self::$param;
     }
+
 }
