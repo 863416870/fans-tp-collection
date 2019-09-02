@@ -6,7 +6,7 @@
  * Time: 12:42
  */
 
-namespace app\api\behavior;
+namespace app\common\behavior;
 
 use app\common\exception\BaseException;
 use app\common\model\Log;

@@ -18,6 +18,22 @@ class ExceptionUtil
 
     public static $param = [];
 
+
+    /**
+     * 参数数据异常
+     * @param string $message 异常提示信息
+     * @param int $errorCode  异常状态码
+     * @param int $code       http状态码
+     * @return array
+     */
+    public static function ParameterExceptionMap(
+        $message="参数错误",
+        $errorCode=99999,
+        $code=400
+    ){
+        return self::setParam($message,$errorCode,$code);
+    }
+
     /**
      * 反射解析数据异常
      * @param string $message 异常提示信息
@@ -32,6 +48,8 @@ class ExceptionUtil
     ){
        return self::setParam($message,$errorCode,$code);
     }
+
+
     /**
      * 反射的对象/方法注释错误
      * @param string $message 异常提示信息
@@ -46,6 +64,8 @@ class ExceptionUtil
     ){
         return self::setParam($message,$errorCode,$code);
     }
+
+
     /**
      *日志信息
      * @param string $message 异常提示信息

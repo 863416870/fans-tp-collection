@@ -27,6 +27,6 @@ return [
     'app_end'      => [],
     // api日志
     'logger' => [
-        'app\\api\\behavior\\Logger',
+        'app\\common\\behavior\\Logger',
     ]
 ];
