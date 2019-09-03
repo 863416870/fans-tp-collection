@@ -1,14 +1,14 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/9/3
- * Time: 16:40
+ * Oss文件存储
+ * Created by PhpStorm
+ * User: 范国洁
+ * Date: 2019/8/31
+ * Time: 17:26
  */
 
 namespace app\common\tools;
 
-use library\File;
 use OSS\Model\CorsConfig;
 use OSS\Model\CorsRule;
 use OSS\OssClient;
