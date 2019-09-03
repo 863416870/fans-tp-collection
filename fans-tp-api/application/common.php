@@ -9,7 +9,10 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+use think\facade\Cache;
+use think\Db;
 // 应用公共文件
+
 
 if (!function_exists('writeJson')) {
     /**
@@ -29,6 +32,38 @@ if (!function_exists('writeJson')) {
         return json($data, $code);
     }
 }
+
+if (!function_exists('sysconf')) {
+    /**
+     * 设备或配置系统参数
+     * @param string $name 参数名称
+     * @param boolean $value 无值为获取
+     * @return string|boolean
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    function sysconf($name, $value = null)
+    {
+        static $data = [];
+        list($field, $raw) = explode('|', "{$name}|");
+        $key = md5(config('database.hostname') . '#' . config('database.database'));
+        if ($value !== null) {
+            Cache::tag('system')->rm("_sysconfig_{$key}");
+            list($row, $data) = [['name' => $field, 'value' => $value], []];
+            return \app\common\tools\Data::save('SystemConfig', $row, 'name');
+        }
+        if (empty($data)) {
+            $data = Cache::tag('system')->get("_sysconfig_{$key}", []);
+            if (empty($data)) {
+                $data = Db::name('SystemConfig')->column('name,value');
+                halt($data);
+                Cache::tag('system')->set("_sysconfig_{$key}", $data, 60);
+            }
+        }
+        return isset($data[$field]) ? (strtolower($raw) === 'raw' ? $data[$field] : htmlspecialchars($data[$field])) : '';
+    }
+}
+
 if (!function_exists('format_datetime')) {
     /**
      * 日期格式标准输出

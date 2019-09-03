@@ -5,6 +5,8 @@
       <path value="$PROJECT_DIR$/fans-tp-api/vendor/topthink/think-installer" />
       <path value="$PROJECT_DIR$/fans-tp-api/vendor/composer" />
       <path value="$PROJECT_DIR$/fans-tp-api/vendor/topthink/think-migration" />
+      <path value="$PROJECT_DIR$/fans-tp-api/vendor/aliyuncs/oss-sdk-php" />
+      <path value="$PROJECT_DIR$/fans-tp-api/vendor/qiniu/php-sdk" />
     </include_path>
   </component>
 </project>

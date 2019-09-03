@@ -41,17 +41,17 @@ class File
      */
     protected static $params = [
         'const' => [
-            'storage_type' => '文件存储类型',
+            'storage_type' => 'oss',//文件存储类型
         ],
         'local' => [
-            'storage_local_exts' => '文件上传允许类型后缀',
+            'storage_local_exts' => 'doc,gif,icon,jpg,mp3,mp4,p12,pem,png,rar',//文件上传允许类型后缀
         ],
         'oss'   => [
             'storage_oss_domain'   => 'fanguojie.oss-cn-beijing.aliyuncs.com',//文件访问域名
             'storage_oss_keyid'    => 'LTAIUpHwhn4OsDy3',//接口授权AppId
             'storage_oss_secret'   => 'jB3fVambbCeBHZb1uyeEZfDiUiNoUi',//接口授权AppSecret
             'storage_oss_bucket'   => 'fanguojie',//文件存储空间名称
-            'storage_oss_is_https' => 'http',//文件HTTP访问协议
+            'storage_oss_is_https' => 'https',//文件HTTP访问协议
             'storage_oss_endpoint' => 'oss-cn-beijing.aliyuncs.com',//文件存储节点域名
         ],
         'qiniu' => [
@@ -90,7 +90,7 @@ class File
         if (isset(self::$object[$class = ucfirst(strtolower($name))])) {
             return self::$object[$class];
         }
-        if (class_exists($object = __NAMESPACE__ . "\\driver\\{$class}")) {
+        if (class_exists($object = __NAMESPACE__ . "\\{$class}")) {
             return self::$object[$class] = new $object;
         }
         throw new \think\Exception("File driver [{$class}] does not exist.");
@@ -159,7 +159,6 @@ class File
             if (empty($force) && $file->has($name)) return $file->info($name);
             return $file->save($name, file_get_contents($url));
         } catch (\Exception $e) {
-            \think\facade\Log::error(__METHOD__ . " File download failed [ {$url} ] {$e->getMessage()}");
             return ['url' => $url, 'hash' => md5($url), 'key' => $url, 'file' => $url];
         }
     }
@@ -174,8 +173,10 @@ class File
     {
         if (empty(self::$config) && function_exists('sysconf')) {
             foreach (self::$params as $arr) foreach (array_keys($arr) as $key) $data[$key] = sysconf($key);
+            halt($data);
         }
         self::$config = new Options($data);
+
     }
 
 }

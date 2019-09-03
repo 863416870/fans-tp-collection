@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use app\common\exception\BaseException;
 use app\common\reflex\Reflex;
+use app\common\tools\File;
 use app\common\util\ExceptionUtil;
 use think\facade\Hook;
 
@@ -56,4 +57,11 @@ class Index
         halt(ExceptionUtil::ParseExceptionMap());
         throw new BaseException(ExceptionUtil::ParseExceptionMap());
     }
+
+    public function oss(){
+        // 判断文件是否存在
+         $a = File::instance('oss')->has("d9ab5a4114941c9d/9ab6033c454a716f.jpg");
+         var_dump($a);
+    }
+
 }
