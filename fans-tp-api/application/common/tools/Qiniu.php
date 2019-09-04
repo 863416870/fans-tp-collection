@@ -2,7 +2,7 @@
 /**
  * 七牛云文件存储
  * Created by PhpStorm.
- * User: Administrator
+ * User: 范国洁
  * Date: 2019/9/3
  * Time: 18:49
  */

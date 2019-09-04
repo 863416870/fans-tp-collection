@@ -13,9 +13,6 @@ use think\Model;
 
 class Log extends Model
 {
-    // 设置当前模型对应的完整数据表名称
-    protected $table = 'lin_log';
-
     protected $createTime = 'time';
     protected $updateTime = false;
     protected $autoWriteTimestamp = 'datetime';
@@ -46,11 +43,7 @@ class Log extends Model
 
         $totalNums = $logs->count();
         $logs = $logs->limit($start, $count)->select();
-        throw new BaseException(
-            ExceptionUtil::$LOGGER_EXCEPTION_MAP[
-                ExceptionUtil::$LOGGER_EXCEPTION_MAP['code']=404
 
-            ]);
         if (!count($logs)) throw new LoggerException(['code' => 404, 'msg' => '没有查询到更多日志']);
 
         $result = [

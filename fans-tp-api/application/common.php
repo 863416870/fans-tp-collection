@@ -11,6 +11,7 @@
 
 use think\facade\Cache;
 use think\Db;
+use app\common\util\ExceptionUtil;
 // 应用公共文件
 
 
@@ -164,5 +165,21 @@ if (!function_exists('format_size')) {
         }
 
         return sprintf("%.2f", $size / pow($base, $i)) . ' ' . $unit[$i] . 'B';
+    }
+}
+
+if (!function_exists('paginate')) {
+    /**
+     * @return array
+     * @throws ParameterException
+     */
+    function paginate()
+    {
+        $count = intval(Request::get('count'));
+        $start = intval(Request::get('page'));
+        $count = $count >= 15 ? 15 : $count;
+        $start = $start * $count;
+        if ($start < 0 || $count < 0) throw new \app\lib\exception\BaseException(ExceptionUtil::ParameterExceptionMap());
+        return [$start, $count];
     }
 }
