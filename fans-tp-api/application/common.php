@@ -12,6 +12,8 @@
 use think\facade\Cache;
 use think\Db;
 use app\common\util\ExceptionUtil;
+use app\common\tools\Data;
+use think\Request;
 // 应用公共文件
 
 
@@ -34,6 +36,21 @@ if (!function_exists('writeJson')) {
     }
 }
 
+if (!function_exists('p')) {
+    /**
+     * 打印输出数据到文件
+     * @param mixed $data 输出的数据
+     * @param boolean $force 强制替换
+     * @param string|null $file 文件名称
+     */
+    function p($data, $force = false, $file = null)
+    {
+        is_null($file) && $file = env('runtime_path') . date('Ymd') . '.txt';
+        $str = (is_string($data) ? $data : (is_array($data) || is_object($data)) ? print_r($data, true) : var_export($data, true)) . PHP_EOL;
+        $force ? file_put_contents($file, $str) : file_put_contents($file, $str, FILE_APPEND);
+    }
+}
+
 if (!function_exists('sysconf')) {
     /**
      * 设备或配置系统参数
@@ -51,17 +68,24 @@ if (!function_exists('sysconf')) {
         if ($value !== null) {
             Cache::tag('system')->rm("_sysconfig_{$key}");
             list($row, $data) = [['name' => $field, 'value' => $value], []];
-            return \app\common\tools\Data::save('SystemConfig', $row, 'name');
+            return Data::save('SystemConfig', $row, 'name');
         }
         if (empty($data)) {
             $data = Cache::tag('system')->get("_sysconfig_{$key}", []);
             if (empty($data)) {
                 $data = Db::name('SystemConfig')->column('name,value');
-                halt($data);
                 Cache::tag('system')->set("_sysconfig_{$key}", $data, 60);
             }
         }
-        return isset($data[$field]) ? (strtolower($raw) === 'raw' ? $data[$field] : htmlspecialchars($data[$field])) : '';
+        if (isset($data[$field])) {
+            if (strtolower($raw) === 'raw') {
+                return $data[$field];
+            } else {
+                return htmlspecialchars($data[$field]);
+            }
+        } else {
+            return '';
+        }
     }
 }
 

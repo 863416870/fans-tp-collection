@@ -90,7 +90,7 @@ class File
         if (isset(self::$object[$class = ucfirst(strtolower($name))])) {
             return self::$object[$class];
         }
-        if (class_exists($object = __NAMESPACE__ . "\\{$class}")) {
+        if (class_exists($object = __NAMESPACE__ . "\\driver\\{$class}")) {
             return self::$object[$class] = new $object;
         }
         throw new \think\Exception("File driver [{$class}] does not exist.");

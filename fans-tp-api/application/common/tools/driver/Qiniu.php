@@ -7,8 +7,9 @@
  * Time: 18:49
  */
 
-namespace app\common\tools;
+namespace app\common\tools\driver;
 
+use app\common\tools\File;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
 use think\facade\Log;

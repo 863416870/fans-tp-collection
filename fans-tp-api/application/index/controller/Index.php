@@ -3,12 +3,34 @@ namespace app\index\controller;
 
 use app\common\exception\BaseException;
 use app\common\reflex\Reflex;
+use app\common\tools\Data;
 use app\common\tools\File;
 use app\common\util\ExceptionUtil;
 use think\facade\Hook;
 
 class Index
 {
+
+    public $list = '[
+        {"id":"1","name":"媒体(白名单)","pid":"0"},
+        {"id":"2","name":"党媒公共平台","pid":"0"},
+        {"id":"3","name":"政府机构","pid":"0"},
+        {"id":"4","name":"其他","pid":"0"},
+        {"id":"5","name":"中央媒体","pid":"1"},
+        {"id":"6","name":"地方媒体","pid":"1"},
+        {"id":"7","name":"门户媒体","pid":"4"},
+        {"id":"8","name":"综合媒体","pid":"4"},
+        {"id":"9","name":"专业媒体","pid":"4"},
+        {"id":"11","name":"河北省","pid":"6"},
+        {"id":"12","name":"山东省","pid":"6"},
+        {"id":"13","name":"辽宁省","pid":"6"},
+        {"id":"34","name":"北京","pid":"6"},
+        {"id":"45","name":"视频","pid":"9"},
+        {"id":"46","name":"教育","pid":"9"},
+        {"id":"79","name":"法律","pid":"9"},
+        {"id":"80","name":"其他","pid":"9"},
+        {"id":"81","name":"文学","pid":"9"}]';
+
     public function index()
     {
         return '<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px;} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:) </h1><p> ThinkPHP V5.1<br/><span style="font-size:30px">12载初心不改（2006-2018） - 你值得信赖的PHP框架</span></p></div><script type="text/javascript" src="https://tajs.qq.com/stats?sId=64890268" charset="UTF-8"></script><script type="text/javascript" src="https://e.topthink.com/Public/static/client.js"></script><think id="eab4b9f840753f8e7"></think>';
@@ -64,4 +86,40 @@ class Index
          var_dump($a);
     }
 
+    /**
+     * 生成树状
+     * @return \think\response\Json
+     */
+    public function arrTree(){
+        $list = $this->list;
+        $list = json_decode($list, true);
+        $list = Data::arr2table($list);
+        $list = Data::arr2tree($list);
+//        var_dump($list);
+        return writeJson(200,$list);
+    }
+
+    /**
+     * 父找子
+     * @return \think\response\Json
+     */
+    public function getArrSubIds(){
+        $list = $this->list;
+        $list = json_decode($list, true);
+        $ids = Data::getArrSubIds($list,1);
+//        var_dump($list);
+        return writeJson(200,$ids);
+    }
+
+    /**
+     * 父找子
+     * @return \think\response\Json
+     */
+    public function getArrSupIds(){
+        $list = $this->list;
+        $list = json_decode($list, true);
+        $ids = Data::getArrSupIds($list,[]);
+//        var_dump($list);
+        return writeJson(200,$ids);
+    }
 }

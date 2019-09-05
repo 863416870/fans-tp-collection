@@ -7,17 +7,14 @@
  * Time: 17:26
  */
 
-namespace app\common\tools;
+namespace app\common\tools\driver;
 
+use app\common\tools\File;
 use OSS\Model\CorsConfig;
 use OSS\Model\CorsRule;
 use OSS\OssClient;
 
-/**
- * AliOss文件存储
- * Class Oss
- * @package logic\driver
- */
+
 class Oss extends File
 {
 
