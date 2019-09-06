@@ -132,6 +132,12 @@ class Data
         return array_values(array_unique($sup));
     }
 
+    /**
+     * 递归向上查询
+     * @param $list 数据列表
+     * @param $id 父id
+     * @param $sup
+     */
     public static function joinPid(&$list, $id, &$sup){
         // 如果其pid不为0, 则继续查找
         if(isset($list[$id]) && $list[$id] != 0){
