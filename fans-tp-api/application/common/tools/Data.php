@@ -139,6 +139,7 @@ class Data
         }
         $sup[] = $id;
     }
+
     /**
      * 数据唯一数字编码
      * @param integer $length
