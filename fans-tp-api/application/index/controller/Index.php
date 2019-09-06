@@ -4,8 +4,11 @@ namespace app\index\controller;
 use app\common\exception\BaseException;
 use app\common\reflex\Reflex;
 use app\common\tools\Data;
+use app\common\tools\Express;
 use app\common\tools\File;
+use app\common\tools\Node;
 use app\common\util\ExceptionUtil;
+use Finecho\Logistics\Logistics;
 use think\facade\Hook;
 
 class Index
@@ -95,7 +98,6 @@ class Index
         $list = json_decode($list, true);
         $list = Data::arr2table($list);
         $list = Data::arr2tree($list);
-//        var_dump($list);
         return writeJson(200,$list);
     }
 
@@ -107,7 +109,6 @@ class Index
         $list = $this->list;
         $list = json_decode($list, true);
         $ids = Data::getArrSubIds($list,1);
-//        var_dump($list);
         return writeJson(200,$ids);
     }
 
@@ -119,7 +120,36 @@ class Index
         $list = $this->list;
         $list = json_decode($list, true);
         $ids = Data::getArrSupIds($list,[]);
-//        var_dump($list);
         return writeJson(200,$ids);
+    }
+
+    /**
+     * 获取当前节点
+     * @return \think\response\Json
+     */
+    public function getCurrentNodes(){
+        $currentNodes = Node::current();
+        return writeJson(200,$currentNodes);
+    }
+    /**
+     * 获取当前节点
+     * @return \think\response\Json
+     */
+    public function getMethodTreeNode(){
+        $getMethodTreeNode = Node::getTree(env('app_path'));
+        return writeJson(200,$getMethodTreeNode);
+    }
+
+    public function getEnv(){
+       return  env('app_path');
+    }
+
+    /**
+     * 测试快递100
+     */
+    public function qd100(){
+        $info = Express::query('yuantong','YT4058827811681');
+        $info = Express::query('shentong','773001885407885');
+        return writeJson(200,$info);
     }
 }

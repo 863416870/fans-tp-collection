@@ -127,12 +127,12 @@ class Preg
     }
 
     public static function LengthOver($string,$len) {
-        $length = Kepler_Util::LengthOfUTF8($string);
+        $length = Util::LengthOfUTF8($string);
         return $length > $len;
     }
 
     public static function LengthRange($string, $min, $max){
-        $length = Kepler_Util::LengthOfUTF8($string);
+        $length = Util::LengthOfUTF8($string);
         return ($length >= $min && $length <= $max);
     }
 
