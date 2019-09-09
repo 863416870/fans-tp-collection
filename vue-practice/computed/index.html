@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue计算属性[getter,setter]、方法、侦听器</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+       {{fullName}}
+       {{fullName2()}}
+       {{fullName3}}
+       {{age}}
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: "#app",
+            data: {
+                firstName: 'fan',
+                lastName: 'er',
+                // fullName: 'fan er',//侦听器时打开
+                age: 28
+            },
+            //侦听器 自带缓存机制,较复杂,推荐使用计算属性
+            // watch: {
+           	// 	firstName: function() {
+           	// 		return this.fullName = this.firstName + " " + this.lastName
+           	// 	},
+           	// 	 lastName: function() {
+           	// 		return this.fullName = this.firstName + " " + this.lastName
+           	// 	},
+
+            // },
+            //计算属性.自带缓存机制，值发生改变这个方法自动执行
+          	computed: {
+          		fullName: function(){
+          			console.log('计算了一次')
+          			return this.firstName + " " + this.lastName
+          		},
+          		//方式2.	 set get
+          		fullName3: {
+          			get: function() {
+          				return this.firstName + " " + this.lastName
+          			},
+          			set: function(value) {
+          				var arr = value.split(" ")
+          				this.firstName = arr[0];
+          				this.lastName = arr[1] || "";
+          				console.log(arr)
+          			}
+          		}	
+          	},
+            methods: {
+            	 //方式1. 计算方法 不带缓存机制，值发生改变不会自动执行
+                 fullName2: function(){
+          			console.log('计算了一次')
+          			return this.firstName + " " + this.lastName
+          		}  
+          		
+            }
+        
+        })
+    </script>
+</body>
+   
+</html>

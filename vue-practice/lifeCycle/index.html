@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue生命周期</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+       <!-- <div>hello world</div> -->
+        
+    </div>
+    <script type="text/javascript">
+    //生命周期函数就是vue实例在某个特定的时间执行的事件
+        var app = new Vue({
+            el: "#app",
+            template: "<div>{{list}}</div>",
+            data: {
+                list:''
+            },
+            beforeCreate: function(){
+            	console.log('beforeCreate')
+            },
+            created: function(){
+            	console.log('created')
+            },
+            beforeMount: function(){
+            	//将元素数据挂在到页面
+            	console.log(this.$el);
+            	console.log('beforeMount')
+            },
+            mounted: function(){
+            	console.log(this.$el);
+            	console.log('mounted')
+            },
+            beforeDestory: function(){
+            	console.log('beforeDestory');
+            },
+            destoryed: function(){
+            	console.log('destoryed');	
+            },
+            beforeUpdate: function(){
+            	console.log('beforeUpdate');
+            },
+            updated: function(){
+            	console.log('update');
+            },
+            methods: {
+                    
+            }
+        
+        })
+    </script>
+</body>
+   
+</html>

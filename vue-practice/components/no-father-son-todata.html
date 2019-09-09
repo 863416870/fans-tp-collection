@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 非父子之间的传值(订阅者模式|观察者模式)</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+      <child content="fan" ></child>
+      <child content="er"></child>
+      <div>{{total}}</div>
+    </div>
+    <script type="text/javascript">
+      // 将所有实例化的vue都带有bus属性
+      Vue.prototype.bus = new Vue();
+
+        Vue.component('child',{
+          props: {
+            content: String
+          },
+          data: function() {
+            // body...
+            return {
+              selfContent: this.content
+            }
+          },
+          template:"<div @click='handleClick'>{{selfContent}}</div>",
+          methods: {
+              handleClick:function(){
+                 console.log(this.selfContent)
+                console.log(this.bus.$emit("change",this.selfContent))
+              }
+          },
+          mounted: function(){
+            var this_ = this
+              this.bus.$on('change',function(msg){
+                  this_.selfContent = msg
+              })
+          }
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+              total: 0
+            },
+            methods: {
+              
+            },
+          components: {
+            
+          }
+        })
+    </script>
+</body>
+   
+</html>

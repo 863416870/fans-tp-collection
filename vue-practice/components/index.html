@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 组件细节</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+      <table>
+      	<tbody>
+      		<tr is="row"></tr>
+      		<tr is="row"></tr>
+      		<tr is="row"></tr>
+	     
+      	</tbody>
+      </table>
+    </div>
+    <script type="text/javascript">
+    	Vue.component('row',{
+    		template: "<tr><td>this is a row</td></tr>"
+    	})
+        var app = new Vue({
+            el: "#app",
+            data: {
+             
+            },
+          
+        
+        })
+    </script>
+</body>
+   
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 组件参数校验与非Props特性</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+     	<counter content="fane" ></counter>
+    </div>
+    <script type="text/javascript">
+        Vue.component('counter',{
+           props: //父组件向子组件传值 子组件用props接收
+                {
+                    // count: Number//参数必须是数字
+                    // count: String//参数必须是字符串
+                     // count: [String, Number]//参数是数字 或者 字符串
+                     content: {
+                        type: String,
+                        // required: false,//参数必传或非必传
+                        // default: '11',//默认值
+                        validator: function(value){
+                            return (value.length > 5)//传入字符串长度大于5
+                        }
+                     }
+                },
+        
+            template: "<div >{{content}}</div>",
+        })
+    
+        var app = new Vue({
+            el: "#app",
+         //    data: {
+         //      total: 1
+         //    },
+         //    methods: {
+         //    },
+        	// components: {
+        	// 	counter: counter
+        	// }
+        })
+    </script>
+</body>
+   
+</html>

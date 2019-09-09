@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue v-once </title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+        <component :is="type"></component>
+        <!-- <children1 v-if="type ==='children1'"></children1>
+        <children2 v-if="type ==='children2'"></children2> -->
+        <button @click="handleButton">改变</button>
+    </div>
+    <script type="text/javascript">
+      <!-- v-once 起的是缓存的作用，切换组件减少性能开销 -->
+    	Vue.component('children1',{
+    		template: "<div v-once>children1</div>"   
+    	})
+      Vue.component('children2',{
+        template: "<div v-once>children2</div>"
+      })
+        var app = new Vue({
+            el: "#app",
+            data: {
+              type : "children1" 
+            },
+            methods: {
+                handleButton: function(){
+                  this.type = this.type==="children1"?"children2":"children1"
+                }
+            }
+        
+        })
+    </script>
+</body>
+   
+</html>

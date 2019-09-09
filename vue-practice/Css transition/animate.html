@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue animate.css的使用</title>
+    <script src="../vue.min.js"></script>
+    <link href="../animate.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+	@keyframes bounce-in {
+		0% {
+			transform: scale(0);
+		}
+		50% {
+			transform: scale(1.5);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+    
+   /* //动画标签transition还未运行会自动添加属性*/
+    /*.fade-enter-active {
+    		transform-origin: left center;
+            animation:  bounce-in 1s;
+    }
+   
+     .fade-leave-active {
+     	transform-origin: left center;
+         animation:  bounce-in 1s reverse;
+    }*/
+    /*.active {
+    		transform-origin: left center;
+            animation:  bounce-in 1s;
+    }
+   
+     .leave {
+     	transform-origin: left center;
+         animation:  bounce-in 1s reverse;
+    }*/
+</style>
+<body>
+  
+    <div id="app">
+        <!-- 动画标签  transition  -->
+        <transition name="fade"
+        	enter-active-class="acticve"
+        	leave-active-class="leave"
+        >  
+            <div v-if="show"> 
+                assassin
+            </div> 
+        </transition>
+        <button @click="handleClick">动画</button>
+    </div>
+    <script type="text/javascript">
+    	Vue.component('row',{
+    		template: "<tr><td>this is a row</td></tr>"
+    	})
+        var app = new Vue({
+            el: "#app",
+            data: {
+              show:true
+            },
+            methods: {
+              handleClick:function(){
+                this.show = !this.show
+              }
+            }
+          
+        
+        })
+    </script>
+</body>
+   
+</html>

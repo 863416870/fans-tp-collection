@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue 父子之间的传值</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+     	<counter :count="0" @change="increase"></counter>
+     	<counter :count="1" @change="increase"></counter>
+     	<div>{{total}}</div>
+    </div>
+    <script type="text/javascript">
+   
+    	var counter = {
+    		props: ['count'],//父组件向子组件传值 子组件用props接收
+    		data:function(){
+				return {
+					number: this.count
+				}
+    		},
+    		template: "<div @click='handleClick'>{{number}}</div>",
+    		methods: {
+    			handleClick: function(){
+    				this.number ++;
+    				this.$emit('change',1)
+    				// this.count ++
+    			}
+    		}
+    	}
+        var app = new Vue({
+            el: "#app",
+            data: {
+              total: 0
+            },
+            methods: {
+               increase: function(step){
+               		this.total = this.total+step
+               }
+            },
+        	components: {
+        		counter: counter
+        	}
+        })
+    </script>
+</body>
+   
+</html>

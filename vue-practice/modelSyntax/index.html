@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue模板语法</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  
+    <div id="app">
+       <div v-text="name"></div>
+        <div v-html="name + 'lee'" @click="handleClick"></div>
+    </div>
+    <script type="text/javascript">
+    //生命周期函数就是vue实例在某个特定的时间执行的事件
+        var app = new Vue({
+            el: "#app",
+            data: {
+                name:'123'
+            },
+          
+            methods: {
+                   handleClick: function(){
+                   	console.log('111')
+                   } 
+            }
+        
+        })
+    </script>
+</body>
+   
+</html>

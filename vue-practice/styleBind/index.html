@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue样式绑定</title>
+    <script src="../vue.min.js"></script>
+</head>
+<style>
+    .activated{
+        color: red
+    }
+</style>
+<body>
+  
+    <div id="app">
+       <div @click="handleClick"
+        
+        :class="[activated]"
+       >hello world</div>
+      <!--  <div @click="handleClick"
+        
+        :class="{activated:isActivated}"
+       >hello world</div> //1.class的对象的绑定-->
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: "#app",
+            data: {
+                // isActivated:false //1.
+                activated: ""
+            },
+          
+            methods: {
+                   handleClick: function(){
+                   	    // this.isActivated=!this.isActivated //1.
+                        this.activated = this.activated === "activated" ? "" : "activated";
+                   } 
+            }
+        
+        })
+    </script>
+</body>
+   
+</html>
