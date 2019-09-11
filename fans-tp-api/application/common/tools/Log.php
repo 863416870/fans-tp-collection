@@ -38,7 +38,7 @@ class Log
 
     //通用写入
     private static function write($content, $type = "app"){
-        $filePath = realpath(APPLICATION_PATH."/../log");
+        $filePath = realpath(env('app_path')."/../log");
         $fileName = $type . ".log." . date("Ymd");
         $fileLog  = $filePath . "/" . $fileName;
 

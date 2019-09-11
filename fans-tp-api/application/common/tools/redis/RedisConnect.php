@@ -8,6 +8,7 @@
  */
 namespace app\common\tools\redis;
 
+use app\common\tools\Log;
 class RedisConnect
 {
     //单例
@@ -54,7 +55,7 @@ class RedisConnect
         $password =isset($configArr['password']) ? $configArr['password'] : '';
 
         $result = $redis->connect($configArr['host'],$configArr['port'],$timeout,null,$retryDelay);
-
+        Log::error("[Redis Connect] errmsg is [". $result ."]");
         if($result){
             if($password){
                 $redis->auth($password);

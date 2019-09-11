@@ -8,22 +8,23 @@
 namespace app\index\service;
 
 use app\common\tools\redis\RedisBase;
-use think\Log;
+use app\common\tools\Log;
 
 class RedisSubscribe
 {
     public function sub()
     {
-//        Log::error(time()."__超时任务__:");
+        Log::error(time()."__超时任务__:");
         $redis = new RedisBase();
         $redis->setOption();
+
         $redis->psubscribe(array('__keyevent@0__:expired'), function ($redis, $pattern, $chan, $msg) {
             //逻辑处理
-//            Log::error('[1]--过期事件的订阅 ' . json_encode($msg));
-//            Log::error(json_encode($redis));
-//            Log::error(json_encode($pattern));
-//            Log::error(json_encode($chan));
-//            Log::error($msg);
+            Log::error('[1]--过期事件的订阅 ' . json_encode($msg));
+            Log::error(json_encode($redis));
+            Log::error(json_encode($pattern));
+            Log::error(json_encode($chan));
+            Log::error($msg);
         });
     }
 }

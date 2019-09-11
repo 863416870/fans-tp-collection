@@ -7,7 +7,8 @@
  * Time: 14:42
  */
 namespace app\common\tools\redis;
-use think\Log;
+
+use app\common\tools\Log;
 
 class RedisBase
 {
@@ -18,13 +19,12 @@ class RedisBase
 
         try{
             $this->redis = RedisConnect::getInstance();
-            $this->setex('ss',5,'jue');
         }catch (\Exception $e){
-            Log::write("[Redis Connect Failed] errmsg is [". $e->getMessage() ."]");
+            Log::error("[Redis Connect Failed] errmsg is [". $e->getMessage() ."]");
         }
-
+        $this->setex("fan",10,"aa");
         if($this->redis == false){
-            Log::write("[Redis Connect Failed] config is [" . $config . "]");
+            Log::error("[Redis Connect Failed] config is [" . $config . "]");
         }
     }
 
@@ -37,7 +37,7 @@ class RedisBase
                 return call_user_func_array(array($this->redis,$method),$params);
             }
         }catch (\Exception $e){
-            Log::write("[Redis Operation Failed] errmsg is [". $e->getMessage() ."]");
+            Log::error("[Redis Operation Failed] errmsg is [". $e->getMessage() ."]");
         }
         return false;
     }
@@ -70,6 +70,7 @@ class RedisBase
 
     public function setOption()
     {
+        //-1均表示不超时，也可以将超时设置为自己希望的时间， 前面复现时就是设为为0.01ms
         $this->redis->setOption(\Redis::OPT_READ_TIMEOUT, -1);
     }
 }

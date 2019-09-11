@@ -12,6 +12,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\Output;
+use app\common\tools\redis\RedisBase;
 
 class Order extends Command
 {
@@ -29,10 +30,14 @@ class Order extends Command
         $type = $input->getArgument('type');
         if ($type == 'psubscribe') {
             // 发布订阅任务
+            $this->redisSetEx();
             $this->psubscribe();
         }
     }
-
+    public function redisSetEx(){
+        $redis = new RedisBase();
+        $redis->setex("jue",5,111);
+    }
     /**
      * Redis 发布订阅模式
      */
@@ -41,4 +46,6 @@ class Order extends Command
         $service = new RedisSubscribe();
         $service->sub();
     }
+
+
 }
