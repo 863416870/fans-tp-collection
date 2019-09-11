@@ -2,13 +2,13 @@
   <div class="icons">
     <swiper class="swiper-container" :options="swiperOption">
         <swiper-slide v-for="(page, index) of pages" :key="index">
-          <div class="icon">
-              <div class='icon-img'
-                v-for="item of page"
+          <div class="icon"  v-for="item of page"
                 :key="item.id">
+              <div class='icon-img'>
                 <img class='icon-img-content' :src='item.imgUrl' />
+                 </div>
                 <p class="icon-desc">{{item.desc}}</p>
-            </div>
+
           </div>
         </swiper-slide>
     </swiper>
