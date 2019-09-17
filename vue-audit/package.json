@@ -14,6 +14,8 @@
     "axios": "~0.18.0",
     "core-js": "^2.6.5",
     "element-ui": "^2.8.2",
+    "lodash": "^4.17.14",
+    "moment": "^2.24.0",
     "screenfull": "^4.2.0",
     "vue": "^2.6.10",
     "vue-awesome-swiper": "^3.1.3",
