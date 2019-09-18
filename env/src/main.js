@@ -11,7 +11,7 @@ import store from './store'
 // 样式重置
 import 'assets/styles/index.scss' // global css
 import '@/icons' // icon
-import 'assets/styles/realize/element-variables.scss'
+// import 'assets/styles/realize/element-variables.scss'
 
 Vue.config.productionTip = false
 
