@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './routes'
-
+import appConfig from '@/config/index'
+import Util from '@/utils/util'
 
 Vue.use(Router)
 

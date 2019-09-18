@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Notify from '@/components/notify/notify'
+// import Notify from '@/components/notify/notify'
 import Breadcrumb from './Breadcrumb'
 import Screenfull from './Screenfull'
 // import User from './User'
@@ -26,7 +26,7 @@ export default {
   components: {
     Breadcrumb,
     // User,
-    Notify,
+    // Notify,
     Screenfull,
   },
 }
