@@ -19,14 +19,14 @@ export default {
   },
   computed: {
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name)
+      // return this.$store.getters.getStageInfo(this.$route.name)
     },
     titleArr() {
       return this.stageInfo.map(item => item.title).filter(item => !!item)
     },
   },
   // created() {},
-  // mounted() {},
+  mounted() {},
   // watch: {},
   // components: {},
 }

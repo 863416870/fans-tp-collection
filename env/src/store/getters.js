@@ -163,6 +163,7 @@ export const getStageInfo = (state) => {
   const { stageConfig } = state
   const cache = {}
   const findStage = (stages, name) => {
+
     let result
     if (Array.isArray(stages)) {
       for (let i = 0; i < stages.length; i += 1) {

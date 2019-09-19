@@ -99,15 +99,15 @@ export default {
   computed: {
     // 根据当前路由设置激活侧边栏
     defaultActive() {
-      for (let i = (this.stageInfo.length - 1); i >= 0; i -= 1) {
-        if (this.idMap[this.stageInfo[i].name]) {
-          return this.idMap[this.stageInfo[i].name]
-        }
-      }
+      // for (let i = (this.stageInfo.length - 1); i >= 0; i -= 1) {
+      //   if (this.idMap[this.stageInfo[i].name]) {
+      //     return this.idMap[this.stageInfo[i].name]
+      //   }
+      // }
       return ''
     },
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name)
+      // return this.$store.getters.getStageInfo(this.$route.name)
     },
     // 由于index不支持symbol格式, 因此使用 idMap 进行映射
     idMap() {
