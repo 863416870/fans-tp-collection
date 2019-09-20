@@ -1,8 +1,8 @@
 
 import Layout from '@/layout'
 
-//大气路由
-const air =   {
+// 大气路由
+const air = {
   path: '/air',
   component: Layout,
   redirect: '/air/pm25',
@@ -44,7 +44,7 @@ const air =   {
       name: 'CO',
       component: () => import('@/views/air/CO'),
       meta: { title: 'CO数据' }
-    },
+    }
   ]
 }
 

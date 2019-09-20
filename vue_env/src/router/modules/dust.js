@@ -1,7 +1,7 @@
 
 import Layout from '@/layout'
-//扬尘数据路由
-const dust =   {
+// 扬尘数据路由
+const dust = {
   path: '/dust',
   component: Layout,
   redirect: '/dust/tsp',
@@ -15,8 +15,8 @@ const dust =   {
       meta: { title: 'TSP数据' }
     },
     {
-      path: '',
-    },
+      path: ''
+    }
 
   ]
 }

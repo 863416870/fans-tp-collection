@@ -75,8 +75,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '超管',
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -97,11 +97,12 @@ export default {
       immediate: true
     }
   },
-  created () {
+  created() {
     // 节流登录
     this.throttleLogin = Utils.throttle(this.handleLogin, this.wait)
   },
   methods: {
+
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -113,6 +114,7 @@ export default {
       })
     },
     handleLogin() {
+      //TODO 查数据库用户信息 --此处mock.js暂时模拟数据
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
@@ -127,7 +129,7 @@ export default {
           return false
         }
       })
-    },
+    }
   }
 }
 </script>

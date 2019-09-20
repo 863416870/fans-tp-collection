@@ -1,13 +1,11 @@
 <template>
-    <div>
-      预警消息
-    </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'InfoList'
-  };
+export default {
+  name: 'InfoList'
+}
 </script>
 
 <style scoped>

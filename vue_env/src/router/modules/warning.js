@@ -1,13 +1,13 @@
 
 import Layout from '@/layout'
 
-//智能预警路由
-const warning =   {
+// 智能预警路由
+const warning = {
   path: '/warning',
   component: Layout,
   redirect: '/warning/rule/list',
   name: 'IntelligentWarning',
-  meta: { title: '智能预警',icon: 'warning' },
+  meta: { title: '智能预警', icon: 'warning' },
   children: [
     {
       path: '/rule/list',
@@ -26,7 +26,7 @@ const warning =   {
       name: 'InfoList',
       component: () => import('@/views/warning/InfoList'),
       meta: { title: '预警消息' }
-    },
+    }
   ]
 }
 

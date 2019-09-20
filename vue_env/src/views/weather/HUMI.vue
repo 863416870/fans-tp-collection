@@ -1,13 +1,11 @@
 <template>
-  <div>
-    湿度
-  </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'HUMI'
-  };
+export default {
+  name: 'HUMI'
+}
 </script>
 
 <style scoped>

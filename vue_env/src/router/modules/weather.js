@@ -1,13 +1,13 @@
 
 import Layout from '@/layout'
 
-//气象路由
-const weather =   {
+// 气象路由
+const weather = {
   path: '/weather',
   component: Layout,
   redirect: '/weather/temp',
   name: 'Weather',
-  meta: { title: '气象数据',icon: 'weather' },
+  meta: { title: '气象数据', icon: 'weather' },
   children: [
     {
       path: 'temp',
@@ -38,7 +38,7 @@ const weather =   {
       name: 'WD',
       component: () => import('@/views/weather/WD'),
       meta: { title: '风力数据' }
-    },
+    }
 
   ]
 }

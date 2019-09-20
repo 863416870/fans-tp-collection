@@ -1,11 +1,7 @@
-<template>
-
-</template>
-
 <script>
-  export default {
-    name: 'TSP'
-  };
+export default {
+  name: 'TSP'
+}
 </script>
 
 <style scoped>

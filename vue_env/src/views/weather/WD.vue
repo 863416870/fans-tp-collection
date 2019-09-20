@@ -1,13 +1,11 @@
 <template>
-  <div>
-  风力
-  </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'WD'
-  };
+export default {
+  name: 'WD'
+}
 </script>
 
 <style scoped>

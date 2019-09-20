@@ -1,13 +1,11 @@
 <template>
-    <div>
-      坐标管理
-    </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'Coordinate'
-  };
+export default {
+  name: 'Coordinate'
+}
 </script>
 
 <style scoped>

@@ -1,13 +1,11 @@
 <template>
-    <div>
-      监控点管理
-    </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'MonitorPointList'
-  };
+export default {
+  name: 'MonitorPointList'
+}
 </script>
 
 <style scoped>

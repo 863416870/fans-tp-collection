@@ -1,13 +1,11 @@
 <template>
-    <div>
-      智能数据分析
-    </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'Index'
-  };
+export default {
+  name: 'Index'
+}
 </script>
 
 <style scoped>

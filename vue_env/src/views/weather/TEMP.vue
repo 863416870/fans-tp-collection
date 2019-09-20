@@ -1,13 +1,11 @@
 <template>
-  <div>
-    温度
-  </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'TEMP'
-  };
+export default {
+  name: 'TEMP'
+}
 </script>
 
 <style scoped>

@@ -1,13 +1,13 @@
 
 import Layout from '@/layout'
 
-//设备管理路由
-const device =   {
+// 设备管理路由
+const device = {
   path: '/device',
   component: Layout,
   redirect: '/device/monitorPoint/list',
   name: 'Device',
-  meta: { title: '设备管理',icon: 'device' },
+  meta: { title: '设备管理', icon: 'device' },
   children: [
     {
       path: '/monitorPoint/list',
@@ -26,7 +26,7 @@ const device =   {
       name: 'List',
       component: () => import('@/views/device/List'),
       meta: { title: '监控设备管理' }
-    },
+    }
   ]
 }
 

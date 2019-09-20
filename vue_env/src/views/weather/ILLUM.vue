@@ -1,13 +1,11 @@
 <template>
-  <div>
-  照度
-  </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'ILLUM'
-  };
+export default {
+  name: 'ILLUM'
+}
 </script>
 
 <style scoped>

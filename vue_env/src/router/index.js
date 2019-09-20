@@ -13,7 +13,6 @@ import Analytics from './modules/analytics'
 import Warning from './modules/warning'
 import Device from './modules/device'
 
-
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html

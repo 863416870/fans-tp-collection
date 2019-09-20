@@ -1,13 +1,11 @@
 <template>
-    <div>
-新建预警规则
-    </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'RuleAdd'
-  };
+export default {
+  name: 'RuleAdd'
+}
 </script>
 
 <style scoped>

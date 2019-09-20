@@ -2,12 +2,11 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <img v-if="logoIcon" :src="logoIcon" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title">{{ title }} </h1>
+        <img v-if="logoImg" :src="logoImg" class="sidebar-logo-expand">
       </router-link>
     </transition>
   </div>
@@ -24,8 +23,9 @@ export default {
   },
   data() {
     return {
-      title: '天 河 防 务',
-      logo: require("@/assets/login/login.jpg")
+      title: '天和防务',
+      logoIcon: require('@/assets/common/logo_icon.png'),
+      logoImg: require('@/assets/common/logo.png')
     }
   }
 }
@@ -46,7 +46,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: #06054F;
   text-align: center;
   overflow: hidden;
 
@@ -56,6 +56,13 @@ export default {
 
     & .sidebar-logo {
       width: 32px;
+      height: 32px;
+      vertical-align: middle;
+      margin-right: 12px;
+    }
+
+     & .sidebar-logo-expand {
+      width: 137px;
       height: 32px;
       vertical-align: middle;
       margin-right: 12px;

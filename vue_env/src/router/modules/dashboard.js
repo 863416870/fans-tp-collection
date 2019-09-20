@@ -1,6 +1,6 @@
 
 import Layout from '@/layout'
-//首页路由
+// 首页路由
 const dashboard = {
   path: '/',
   component: Layout,
@@ -12,6 +12,5 @@ const dashboard = {
     meta: { title: '大屏展示', icon: 'dashboard' }
   }]
 }
-
 
 export default dashboard

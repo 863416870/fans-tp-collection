@@ -1,13 +1,11 @@
 <template>
-  <div>
-    PM10
-  </div>
+  <div/>
 </template>
 
 <script>
-  export default {
-    name: 'PM10'
-  };
+export default {
+  name: 'PM10'
+}
 </script>
 
 <style scoped>
