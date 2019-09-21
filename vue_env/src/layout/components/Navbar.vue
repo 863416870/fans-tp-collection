@@ -2,9 +2,10 @@
   <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <div class="nav-header-content">军民融合环境大数据平台</div>
+    <div class="nav-header-content" v-text="navbarHeaderContent" />
     <div class="right-menu">
       <template>
+        <Notify id="notify" class="right-menu-item " />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
 
@@ -35,11 +36,19 @@
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import Notify from '@/components/Notify'
+import setting from '@/store/modules/settings'
 
 export default {
   components: {
     Hamburger,
-    Screenfull
+    Screenfull,
+    Notify
+  },
+  data() {
+    return {
+      navbarHeaderContent: setting.state.navbarHeaderContent || '环境大数据平台'
+    }
   },
   computed: {
     ...mapGetters([

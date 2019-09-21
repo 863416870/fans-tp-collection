@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import setting from '@/store/modules/settings'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,9 +25,13 @@ export default {
   data() {
     return {
       title: '天和防务',
-      logoIcon: require('@/assets/common/logo_icon.png'),
-      logoImg: require('@/assets/common/logo.png')
+      logoIcon: setting.state.sidebarLogoIcon,
+      logoImg: setting.state.sidebarLogoImg
+
     }
+  },
+  mounted() {
+    // console.log(setting.state.sidebarLogoIcon)
   }
 }
 </script>
