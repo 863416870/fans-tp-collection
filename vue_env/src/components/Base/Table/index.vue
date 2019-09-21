@@ -48,7 +48,6 @@
           <el-button
             v-for="(item,index) in operate"
             :key="index"
-            v-auth="{auth:item.auth ? item.auth : '', type: 'disabled'}"
             :type="item.type"
             plain
             size="mini"
@@ -113,7 +112,7 @@ export default {
     },
     index: {
       // 是否显示索引
-      index: String,
+      type: String,
       default: ''
     },
     highlightCurrentRow: {

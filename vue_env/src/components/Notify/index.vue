@@ -25,7 +25,7 @@
         <span class="date-time">08-16 13:22:07</span>
       </el-dropdown-item>
     </el-dropdown-menu>
-    </div></el-dropdown>
+  </el-dropdown>
 </template>
 
 <script>
@@ -36,14 +36,14 @@ export default {
     return {
       notify: null,
       unreadMessages: [
-        { id: 1, data: '您有仪器一出问题啦!' },
-        { id: 2, data: '您有仪器二出问题啦!' },
-        { id: 3, data: '您有仪器三出问题啦!' }
+        { id: 1, data: '您的仪器一出问题啦!' },
+        { id: 2, data: '您的仪器二出问题啦!' },
+        { id: 3, data: '您的仪器三出问题啦!' }
       ],
       readedMessages: [
-        { id: 4, data: '您有仪器四出问题啦!' },
-        { id: 5, data: '您有仪器五出问题啦!' },
-        { id: 6, data: '您有仪器六出问题啦!' }
+        { id: 4, data: '您的仪器四出问题啦!' },
+        { id: 5, data: '您的仪器五出问题啦!' },
+        { id: 6, data: '您的仪器六出问题啦!' }
       ]
     }
   },

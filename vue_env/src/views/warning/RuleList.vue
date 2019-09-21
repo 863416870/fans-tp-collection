@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header"/>
+    <div class="header" />
     <!-- 表格 -->
     <zzd-table
       v-loading="loading"

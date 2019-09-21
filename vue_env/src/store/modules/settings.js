@@ -1,6 +1,8 @@
 import defaultSettings from '@/settings'
+import defaultSetUrl from '@/setUrl'
 
-const { showSettings, fixedHeader, sidebarLogo, sidebarLogoIcon, sidebarLogoImg, navbarHeaderContent } = defaultSettings
+const { showSettings, fixedHeader, sidebarLogo, navbarHeaderContent } = defaultSettings
+const { sidebarLogoIcon, sidebarLogoImg } = defaultSetUrl
 
 const state = {
   showSettings: showSettings,

@@ -46,8 +46,8 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
-    },
-    //此处模拟数据用 有需求将注释打开
+    }
+    // 此处模拟数据用 有需求将注释打开
     // after: require('./mock/mock-server.js')
   },
   configureWebpack: {
@@ -56,7 +56,7 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src'),
+        '@': resolve('src')
       }
     }
   },

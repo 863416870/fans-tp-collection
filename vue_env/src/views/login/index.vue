@@ -114,7 +114,7 @@ export default {
       })
     },
     handleLogin() {
-      //TODO 查数据库用户信息 --此处mock.js暂时模拟数据
+      // TODO 查数据库用户信息 --此处mock.js暂时模拟数据
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
