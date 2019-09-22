@@ -149,6 +149,11 @@ export default {
       // 边框
       type: Boolean,
       default: false
+    },
+    selectFieldUnique: {
+      // 默认唯一选中字段
+      type: String,
+      default: 'id'
     }
   },
   data() {
@@ -262,7 +267,7 @@ export default {
     },
     // 全选-取消全选
     selectAll(val) {
-      this.oldKey = val.map(item => item.key)
+      this.oldKey = val.map(item => item[this.selectFieldUnique])
     },
     // 单选
     handleCurrentChange(val, oldVal) {
@@ -270,25 +275,27 @@ export default {
       this.$emit('handleCurrentChange', { val, oldVal })
     },
     // 单击某一行
-      rowClick(row, column, event) { // eslint-disable-line
+    rowClick(row, column, event) { // eslint-disable-line
+      console.log(row, column, event)
+      console.log('ssas', this.oldKey)
       // 选中-多选
-      if (!this.oldKey.includes(row.key)) {
-        this.oldKey.push(row.key)
+      if (!this.oldKey.includes(row[this.selectFieldUnique])) {
+        this.oldKey.push(row[this.selectFieldUnique])
         const data = this.oldVal.concat(row)
         this.handleSelectionChange(data)
         // 选中checkbox
-        this.toggleSelection(this.currentData.filter(item => item.key === row.key))
+        this.toggleSelection(this.currentData.filter(item => item[this.selectFieldUnique] === row[this.selectFieldUnique]))
         // 取消选中
       } else {
-        this.oldKey = this.oldKey.filter(item => item !== row.key)
-        const data = this.oldVal.filter(item => item.key !== row.key)
+        this.oldKey = this.oldKey.filter(item => item !== row[this.selectFieldUnique])
+        const data = this.oldVal.filter(item => item[this.selectFieldUnique] !== row[this.selectFieldUnique])
         this.handleSelectionChange(data)
-        this.toggleSelection(this.currentData.filter(item => item.key === row.key), false)
+        this.toggleSelection(this.currentData.filter(item => item[this.selectFieldUnique] === row[this.selectFieldUnique]), false)
       }
       // 选中-单选
-      if (this.currentOldRow && this.currentOldRow.key === row.key) {
+      if (this.currentOldRow && this.currentOldRow[this.selectFieldUnique] === row[this.selectFieldUnique]) {
         // 取消单选选中
-        this.$refs.zzdTable.setCurrentRow()
+        this.$refs.linTable.setCurrentRow()
         this.currentOldRow = null
         return
       }
@@ -305,7 +312,7 @@ export default {
       // 已选中的数据打勾
       this.selectedTableData.forEach((item) => {
         for (let i = 0; i < this.currentData.length; i++) {
-          if (this.currentData[i].key === item.key) {
+          if (this.currentData[i][this.selectFieldUnique] === item[this.selectFieldUnique]) {
             // 切换页码重新计算oldVal
             this.oldVal.push(this.currentData[i])
             // 需要打勾的数据
@@ -321,8 +328,8 @@ export default {
     },
     // checkbox触发函数
     handleSelectionChange(val) {
-      const valKeys = val.map(item => item.key)
-      const oldValKeys = this.oldVal.map(item => item.key)
+      const valKeys = val.map(item => item.audit_user_id)
+      const oldValKeys = this.oldVal.map(item => item[this.selectFieldUnique])
       this.selectedTableData = JSON.parse(sessionStorage.getItem('selectedTableData'))
       // 一条数据都没选中
       if (this.selectedTableData.length === 0) {
@@ -335,11 +342,11 @@ export default {
       // 判断是选中数据还是取消选中
       if (valKeys.length < oldValKeys.length) {
         const delKey = oldValKeys.filter(item => !valKeys.includes(item))
-        this.selectedTableData = this.selectedTableData.filter(item => !delKey.includes(item.key))
+        this.selectedTableData = this.selectedTableData.filter(item => !delKey.includes(item[this.selectFieldUnique]))
         this.$emit('selection-change', this.selectedTableData)
       } else {
         const addKey = valKeys.filter(item => !oldValKeys.includes(item))
-        const addVal = val.filter(item => addKey.includes(item.key))
+        const addVal = val.filter(item => addKey.includes(item[this.selectFieldUnique]))
         this.selectedTableData = this.selectedTableData.concat(addVal)
         this.$emit('selection-change', this.selectedTableData)
       }

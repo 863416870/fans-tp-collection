@@ -1,4 +1,4 @@
-import { debounce } from '@/utils/util'
+import { debounce } from '@/utils'
 
 export default {
   data() {

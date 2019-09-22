@@ -12,9 +12,11 @@
         :table-data="tableData"
         :operate="operate"
         :type="type"
+        :select-field-unique="selectFieldUnique"
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
         @row-click="rowClick"
+        @selection-change="handleSelectionChange"
       />
       <!-- 分页 -->
       <div class="pagination">
@@ -57,18 +59,28 @@ export default {
       operate: [], // 表格按键操作区;
       type: 'selection', // 表格头部多选框
       showEdit: false,
-      editBookID: 1
+      editBookID: 1,
+      highlightCurrentRow: false,
+      selectFieldUnique: 'audit_user_id',
+      multipleSelection: [] // 选中id
+    }
+  },
+  watch: {
+    multipleSelection: function() {
+      const arr = []
+      for (const i in this.multipleSelection) {
+        arr.push(this.multipleSelection[i].audit_user_id)
+      }
+      console.log('勾中的id为：' + arr.join())
     }
   },
   async created() {
     this.loading = true
     this.getWarnInfoList()
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, {
-      name: '删除',
-      func: 'handleDelete',
-      type: 'danger',
-      auth: '删除图书'
-    }]
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+      { name: '删除', func: 'handleDelete', type: 'danger', auth: '删除图书' }
+    ]
     this.loading = false
   },
   mounted() {
@@ -91,20 +103,22 @@ export default {
       this.editBookID = val.row.id
     },
     handleDelete(val) {
-      // this.$confirm('此操作将永久删除该图书, 是否继续?', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(async() => {
-      //   const res = await book.delectBook(val.row.id)
-      //   if (res.error_code === 0) {
-      //     this.getBooks()
-      //     this.$message({
-      //       type: 'success',
-      //       message: `${res.msg}`
-      //     })
-      //   }
-      // })
+      this.$confirm('此操作将永久删除该图书, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
+        // const res = await book.delectBook(val.row.id)
+        // if (res.error_code === 0) {
+        //   this.getBooks()
+        //   this.$message({
+        //     type: 'success',
+        //     message: `${res.msg}`
+        //   })
+        // }
+
+        console.log('val', val.row.audit_user_id)
+      })
     },
     // 切换table页
     async handleCurrentChange(val) {
@@ -116,11 +130,16 @@ export default {
     rowClick() {
 
     },
+
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
     editClose() {
       this.showEdit = false
       // this.getBooks()
     }
   }
+
 }
 </script>
 
