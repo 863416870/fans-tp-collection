@@ -29,6 +29,7 @@
           layout="sizes, prev, pager, next, jumper"
           :total="total_nums"
           @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
         />
       </div>
     </div>
@@ -62,11 +63,12 @@ export default {
       showEdit: false,
       editBookID: 1,
       highlightCurrentRow: false,
-      selectFieldUnique: 'audit_user_id',
+      selectFieldUnique: 'audit_user_id', // 多选取得对应的字段
       multipleSelection: [] // 选中id
     }
   },
   watch: {
+    // 此处监听多选的id
     multipleSelection: function() {
       const arr = []
       for (const i in this.multipleSelection) {
@@ -111,22 +113,17 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async() => {
-        // const res = await book.delectBook(val.row.id)
-        // if (res.error_code === 0) {
-        //   this.getBooks()
-        //   this.$message({
-        //     type: 'success',
-        //     message: `${res.msg}`
-        //   })
-        // }
-
         console.log('val', val.row.audit_user_id)
       })
     },
     // 切换table页
     async handleCurrentChange(val) {
-      console.log(val)
       this.currentPage = val
+      await this.getWarnInfoList()
+    },
+    // 切换每页条数
+    async handleSizeChange(val) {
+      this.pageCount = val
       await this.getWarnInfoList()
     },
     rowClick(row) {

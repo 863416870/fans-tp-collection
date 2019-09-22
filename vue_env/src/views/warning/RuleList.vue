@@ -2,7 +2,7 @@
   <div class="block">
     <span class="demonstration">完整功能</span>
     <el-pagination
-      :current-page="currentPage"
+      :current-page="currentPage4"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
@@ -17,7 +17,10 @@
 export default {
   data() {
     return {
-      currentPage: 5
+      currentPage1: 5,
+      currentPage2: 5,
+      currentPage3: 5,
+      currentPage4: 4
     }
   },
   methods: {
