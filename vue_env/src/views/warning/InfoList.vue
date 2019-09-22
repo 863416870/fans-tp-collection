@@ -24,8 +24,9 @@
           v-if="refreshPagination"
           :background="true"
           :page-size="pageCount"
+          :page-sizes="[10, 20, 50, 100]"
           :current-page="currentPage"
-          layout="prev, pager, next, jumper"
+          layout="sizes, prev, pager, next, jumper"
           :total="total_nums"
           @current-change="handleCurrentChange"
         />
@@ -89,8 +90,10 @@ export default {
   methods: {
     async getWarnInfoList() {
       try {
-        const WarnInfoList = await getList()
+        const params = { curPage: this.currentPage, perPage: this.pageCount }
+        const WarnInfoList = await getList(params)
         this.tableData = WarnInfoList.data.user_list
+        this.total_nums = parseInt(WarnInfoList.data.total)
       } catch (error) {
         if (error.error_code === 10020) {
           this.tableData = []
@@ -122,15 +125,13 @@ export default {
     },
     // 切换table页
     async handleCurrentChange(val) {
+      console.log(val)
       this.currentPage = val
-      this.loading = true
-      // await this.getAdminUsers('changePage')
-      this.loading = false
+      await this.getWarnInfoList()
     },
-    rowClick() {
-
+    rowClick(row) {
+      console.log('rowclick')
     },
-
     handleSelectionChange(val) {
       this.multipleSelection = val
     },

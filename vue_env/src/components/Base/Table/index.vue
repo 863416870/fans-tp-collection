@@ -276,8 +276,6 @@ export default {
     },
     // 单击某一行
     rowClick(row, column, event) { // eslint-disable-line
-      console.log(row, column, event)
-      console.log('ssas', this.oldKey)
       // 选中-多选
       if (!this.oldKey.includes(row[this.selectFieldUnique])) {
         this.oldKey.push(row[this.selectFieldUnique])
@@ -295,7 +293,7 @@ export default {
       // 选中-单选
       if (this.currentOldRow && this.currentOldRow[this.selectFieldUnique] === row[this.selectFieldUnique]) {
         // 取消单选选中
-        this.$refs.linTable.setCurrentRow()
+        this.$refs.zzdTable.setCurrentRow()
         this.currentOldRow = null
         return
       }
