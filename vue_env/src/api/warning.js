@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(data) {
   return request({
-    url: '/audit/user/list',
+    url: '/warn/rule/list',
     method: 'get',
     data
   })

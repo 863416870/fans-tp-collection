@@ -6,6 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import Dashboard from './modules/dashboard'
+import ShowIndex from './modules/showindex'
 import Air from './modules/air'
 import Weather from './modules/weather'
 import Dust from './modules/dust'
@@ -50,6 +51,7 @@ export const constantRoutes = [
     hidden: true
   },
   Dashboard,
+  ShowIndex,
   Air,
   Weather,
   Dust,
@@ -57,7 +59,7 @@ export const constantRoutes = [
   Warning,
   Device,
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

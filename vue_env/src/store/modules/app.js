@@ -1,11 +1,14 @@
 import Cookies from 'js-cookie'
+import { saveCommonInfo } from '@/utils/commoninfo'
+import { getCommonInfo } from '@/api/common'
 
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  commonInfo:{},
 }
 
 const mutations = {
@@ -25,6 +28,9 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  COMMON_INFO: (state, commonInfo) => {
+    state.commonInfo = commonInfo
   }
 }
 
@@ -37,6 +43,18 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  changeCommonInfo({ commit }){
+    return new Promise((resolve, reject) => {
+      getCommonInfo().then(response => {
+        console.log('response',response.data.commonInfo)
+        commit('COMMON_INFO', response.data.commonInfo)
+        saveCommonInfo(response.data.commonInfo)
+        resolve(data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
   }
 }
 

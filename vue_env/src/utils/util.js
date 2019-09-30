@@ -74,8 +74,11 @@ Utils.getRandomStr = (n = 6) => {
   return str
 }
 
-
-function getTypeOf(obj) {
+/**
+ * 返回对象的类型
+ * @param {Object} obj
+ */
+Utils.getTypeOf = (obj) => {
   const { toString } = Object.prototype
   const map = {
     '[object Boolean]': 'boolean',

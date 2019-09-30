@@ -1,9 +1,12 @@
 <template>
   <section class="app-main">
     <breadcrumb class="breadcrumb-container" />
-    <transition name="fade-transform" mode="out-in">
-      <router-view :key="key" />
-    </transition>
+    <div class="page-container">
+      <transition name="fade-transform" mode="out-in">
+          <router-view :key="key" />
+      </transition>
+    </div>
+
   </section>
 </template>
 
@@ -34,11 +37,17 @@ export default {
   padding-top: 50px;
 }
 .breadcrumb-container {
-    float: left;
-    padding-left: 30px;
+    padding-left: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
-  }
+    display: table;
+    width: 100%;
+}
+.page-container{
+  margin: 0 15px;
+  padding: 0px 10px 10px 10px;
+  border-radius: 5px;
+}
 </style>
 
 <style lang="scss">

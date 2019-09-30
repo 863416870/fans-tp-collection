@@ -2,7 +2,7 @@
 <template>
   <!-- eslint-disable vue/require-component-is -->
   <!-- eslint-disable-next-line vue/require-component-is -->
-  <component v-bind="linkProps(to)">
+  <component v-bind="linkProps(to, target)">
     <slot />
   </component>
 </template>
@@ -15,21 +15,26 @@ export default {
     to: {
       type: String,
       required: true
-    }
+    },   
+    target: {
+      type: String,
+      default: ""
+    } 
   },
   methods: {
-    linkProps(url) {
-      if (isExternal(url)) {
-        return {
-          is: 'a',
-          href: url,
-          target: '_blank',
-          rel: 'noopener'
-        }
-      }
+    linkProps(url, target) {
+      // if (isExternal(url)) {
+      //   return {
+      //     is: 'a',
+      //     href: url,
+      //     target: '_blank',
+      //     rel: 'noopener'
+      //   }
+      // }
       return {
         is: 'router-link',
-        to: url
+        to: url,
+        target: target
       }
     }
   }

@@ -10,21 +10,22 @@ const device = {
   meta: { title: '设备管理', icon: 'device' },
   children: [
     {
-      path: '/monitorPoint/list',
+      path: 'monitorPoint/list',
       name: 'MonitorPointList',
-      component: () => import('@/views/device/MonitorPointList'),
+      component: () => import('@/views/device/MonitorPoint/list'),
       meta: { title: '监控点管理' }
     },
     {
-      path: 'coordinate',
-      name: 'Coordinate',
-      component: () => import('@/views/device/Coordinate'),
-      meta: { title: '坐标管理' }
+      path: 'monitorPoint/add',
+      name: 'MonitorPointAdd',
+      component: () => import('@/views/device/MonitorPoint/add'),
+      meta: { title: '新增监控点' },
+      hidden: true
     },
     {
-      path: 'list',
+      path: 'device/list',
       name: 'List',
-      component: () => import('@/views/device/List'),
+      component: () => import('@/views/device/Device/list'),
       meta: { title: '监控设备管理' }
     }
   ]

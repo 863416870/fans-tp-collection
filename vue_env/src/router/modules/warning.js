@@ -10,21 +10,22 @@ const warning = {
   meta: { title: '智能预警', icon: 'warning' },
   children: [
     {
-      path: '/rule/list',
+      path: 'rule/list',
       name: 'RuleList',
-      component: () => import('@/views/warning/RuleList'),
+      component: () => import('@/views/warning/rule/RuleList'),
       meta: { title: '预警规则' }
     },
     {
-      path: '/rule/add',
+      path: 'rule/add',
       name: 'RuleAdd',
-      component: () => import('@/views/warning/RuleAdd'),
+      component: () => import('@/views/warning/rule/RuleAdd'),
+      hidden: true,
       meta: { title: '新建预警规则' }
     },
     {
-      path: '/info/list',
+      path: 'info/list',
       name: 'InfoList',
-      component: () => import('@/views/warning/InfoList'),
+      component: () => import('@/views/warning/info/InfoList'),
       meta: { title: '预警消息' }
     }
   ]

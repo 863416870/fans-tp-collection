@@ -6,8 +6,15 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+// echarts主题
+import 'echarts/theme/macarons'
+import 'echarts/theme/shine'
+
 import '@/styles/index.scss' // global css
 
+import '@/filters'
 import App from './App'
 import store from './store'
 import router from './router'
@@ -27,11 +34,14 @@ import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
-
+// Vue.prototype.$echarts = echarts
 // set ElementUI lang to EN
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+// vue全局挂载返回上一页
+Vue.prototype.back = () => router.back(-1)
 
 new Vue({
   el: '#app',

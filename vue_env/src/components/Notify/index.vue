@@ -29,7 +29,6 @@
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -48,29 +47,15 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters(['user'])
   },
   created() {
     this.$nextTick(() => {
-      // this.initNotify()
+
     })
   },
   methods: {
-    // initNotify() {
-    //   if (this.user) {
-    //     this.notify = new Notify('notify/')
-    //     this.notify.initSse()
-    //   }
-    // }
-    // ...mapActions(['readMessage'])
+
   }
-  // filters: {
-  //   motifyFmt(value) {
-  //     const fmt = JSON.parse(value)
-  //     // fmt.message fmt.time and others
-  //     return fmt.message
-  //   },
-  // },
 }
 </script>
 
@@ -191,12 +176,12 @@ export default {
   overflow: hidden;
   color: #c4c9d2;
 }
-.notify /deep/ .el-badge__content.is-fixed {
+.notify >>> .el-badge__content.is-fixed {
   transform-origin: center center;
   transform: translateY(-10%) translateX(100%) scale(0.8) !important;
 }
 
-.notify /deep/ .el-badge__content {
+.notify >>> .el-badge__content {
   border: 1px solid transparent !important;
   line-height: 20px !important;
 }

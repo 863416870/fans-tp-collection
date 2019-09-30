@@ -1,9 +1,10 @@
 <template>
   <div class="login-container">
+    <div class="bg-area" />
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">{{ navbarHeaderContent }}</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,7 +42,7 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="throttleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;" @click.native.prevent="throttleLogin">登录</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -55,6 +56,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import Utils from '@/utils/util'
+import setting from '@/store/modules/settings'
 
 export default {
   name: 'Login',
@@ -82,6 +84,7 @@ export default {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
+      navbarHeaderContent: setting.state.navbarHeaderContent || '环境大数据平台',
       loading: false,
       passwordType: 'password',
       redirect: undefined,
@@ -118,6 +121,8 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          // 在actions里封装了一个axios请求
+          // 在login页通过this.$store.dispatch提交data里的数据
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
@@ -139,8 +144,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$light_gray:#283443;
+$cursor: #283443;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -182,23 +187,38 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg:#ffffff;
 $dark_gray:#889aa4;
-$light_gray:#eee;
+$light_gray:#5eb8dd;
 
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+  position: relative;
+
+  .bg-area{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    filter: blur(10px);
+    z-index: 10;
+    background-image: url(./../../assets/login/thfw.jpeg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 
   .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
+    background: #fff;
+    width: 400px;
+    height: 370px;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 185px);
+    border-radius: 4px;
+    padding: 35px;
+    z-index:20;
   }
 
   .tips {
@@ -227,7 +247,7 @@ $light_gray:#eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 30px auto;
       text-align: center;
       font-weight: bold;
     }

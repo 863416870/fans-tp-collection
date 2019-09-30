@@ -5,7 +5,7 @@ import { resetRouter } from '@/router'
 const state = {
   token: getToken(),
   name: '',
-  avatar: ''
+  avatar: 'http://pic4.zhimg.com/50/v2-46c2eb18d011d3711617a2664844e5fd_hd.jpg'
 }
 
 const mutations = {

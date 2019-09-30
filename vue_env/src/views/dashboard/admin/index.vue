@@ -1,190 +1,299 @@
 <template>
   <div class="dashboard-editor-container">
+    <el-row :gutter="20">
+      <el-col :span="7">
+        <div class="i-title"><span class="i-lable" />实时天气状况</div>
+        <div class="weather-box">
+          <div class="real-weather" />
+          <div>
+              <WeatherHeader :chart-data="WeatherHeaderData"/>
+          </div>
+          <div class="real-value">
+              <WeatherTemp :chart-data="WeatherTempData" :style="{height:&quot;250px&quot;,width:&quot;50%&quot;}" />
+              <WeatherHumi :chart-data="WeatherHumiData" :style="{height:&quot;250px&quot;,width:&quot;50%&quot;}" />
+          </div>
+        </div>
+        <div class="i-title"><span class="i-lable" />大气实时状况</div>
+        <div class="air-box">
+          <AirList :chart-data="AirListData.PM25AirListData" />
+          <AirList :chart-data="AirListData.PM10AirListData" />
+          <AirList :chart-data="AirListData.SO2AirListData" />
+          <AirList :chart-data="AirListData.O3AirListData" />
+          <AirList :chart-data="AirListData.TSPAirListData" />
+        </div>
+      </el-col>
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData" />
-    </el-row>
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <Parallel :chart-data="lineChartDatas" />
+      <el-col :span="10" class="factory-box">
+        <div class="bg-left-img"><img :src="bgLeftImg"></div>
+        <div class="factory-info">
+          <FactoryDevicePoint :chart-data="FactoryDevicePointData"/>
+        </div>
+        <div class="bg-right-img"><img :src="bgRightImg"></div>
+
+      </el-col>
+
+      <el-col :span="7">
+        <div class="i-title"><span class="i-lable" />空气质量日历</div>
+        <div class="aircalendar-box">
+          <AirCalendar :chart-data="AirCalendarData" />
+          <LegendView />
+        </div>
+        <div class="i-title"><span class="i-lable" />实时消息</div>
+        <div class="msg-box">
+          <MsgList :chart-data="MsgListData" />
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import WeatherTemp from './components/WeatherTemp'
+import WeatherHumi from './components/WeatherHumi'
+import WeatherHeader from './components/WeatherHeader'
+import MsgList from './components/MsgList'
+import AirList from './components/AirList'
+import AirCalendar from './components/AirCalendar'
+import LegendView from './components/Legend'
+import FactoryDevicePoint from './components/FactoryDevicePoint'
+const moment = require('moment')
+import { diffDate } from '@/utils/date'
+import { getNoticeList, getAirDataList, getAirCalendarDataList, getWeatherData, getCurrentWeather, getFactoryDevicePoint } from '@/api/dashboard'
+import bgLeftImg from '@/assets/dashboard/bg_left.png'
+import bgRightImg from '@/assets/dashboard/bg_right.png'
 
-import LineChart from './components/LineChart'
-// import PieChart from './components/PieChart'
-import Parallel from './components/Parallel'
 
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+// 大气实时默认数据
+const AirChartData = {
+  AirList: {
+    // 默认颜色色值
+    myColor: ['rgb(4,4,4)', 'rgb(252,255,1)', 'rgb(64,239,105)', 'rgb(232,37,5)', 'rgb(3,167,243)'],
+    // 默认数据类型名称
+    dataName: ['TSP', 'O3', 'SO2', 'PM10', 'PM2.5'],
+    // 默认数据类型值
+    dataValue: [0, 0, 0, 0, 0]
   },
-  parallelaqi: {
-    dataBJ: [
-      [1, 55, 9, 56, 0.46, 18, 6, '良'],
-      [2, 25, 11, 21, 0.65, 34, 9, '优'],
-      [3, 56, 7, 63, 0.3, 14, 5, '良'],
-      [4, 33, 7, 29, 0.33, 16, 6, '优'],
-      [5, 42, 24, 44, 0.76, 40, 16, '优'],
-      [6, 82, 58, 90, 1.77, 68, 33, '良'],
-      [7, 74, 49, 77, 1.46, 48, 27, '良'],
-      [8, 78, 55, 80, 1.29, 59, 29, '良'],
-      [9, 267, 216, 280, 4.8, 108, 64, '重度污染'],
-      [10, 185, 127, 216, 2.52, 61, 27, '中度污染'],
-      [11, 39, 19, 38, 0.57, 31, 15, '优'],
-      [12, 41, 11, 40, 0.43, 21, 7, '优'],
-      [13, 64, 38, 74, 1.04, 46, 22, '良'],
-      [14, 108, 79, 120, 1.7, 75, 41, '轻度污染'],
-      [15, 108, 63, 116, 1.48, 44, 26, '轻度污染'],
-      [16, 33, 6, 29, 0.34, 13, 5, '优'],
-      [17, 94, 66, 110, 1.54, 62, 31, '良'],
-      [18, 186, 142, 192, 3.88, 93, 79, '中度污染'],
-      [19, 57, 31, 54, 0.96, 32, 14, '良'],
-      [20, 22, 8, 17, 0.48, 23, 10, '优'],
-      [21, 39, 15, 36, 0.61, 29, 13, '优'],
-      [22, 94, 69, 114, 2.08, 73, 39, '良'],
-      [23, 99, 73, 110, 2.43, 76, 48, '良'],
-      [24, 31, 12, 30, 0.5, 32, 16, '优'],
-      [25, 42, 27, 43, 1, 53, 22, '优'],
-      [26, 154, 117, 157, 3.05, 92, 58, '中度污染'],
-      [27, 234, 185, 230, 4.09, 123, 69, '重度污染'],
-      [28, 160, 120, 186, 2.77, 91, 50, '中度污染'],
-      [29, 134, 96, 165, 2.76, 83, 41, '轻度污染'],
-      [30, 52, 24, 60, 1.03, 50, 21, '良'],
-      [31, 46, 5, 49, 0.28, 10, 6, '优']
-    ],
-    dataGZ: [
-      [1, 26, 37, 27, 1.163, 27, 13, '优'],
-      [2, 85, 62, 71, 1.195, 60, 8, '良'],
-      [3, 78, 38, 74, 1.363, 37, 7, '良'],
-      [4, 21, 21, 36, 0.634, 40, 9, '优'],
-      [5, 41, 42, 46, 0.915, 81, 13, '优'],
-      [6, 56, 52, 69, 1.067, 92, 16, '良'],
-      [7, 64, 30, 28, 0.924, 51, 2, '良'],
-      [8, 55, 48, 74, 1.236, 75, 26, '良'],
-      [9, 76, 85, 113, 1.237, 114, 27, '良'],
-      [10, 91, 81, 104, 1.041, 56, 40, '良'],
-      [11, 84, 39, 60, 0.964, 25, 11, '良'],
-      [12, 64, 51, 101, 0.862, 58, 23, '良'],
-      [13, 70, 69, 120, 1.198, 65, 36, '良'],
-      [14, 77, 105, 178, 2.549, 64, 16, '良'],
-      [15, 109, 68, 87, 0.996, 74, 29, '轻度污染'],
-      [16, 73, 68, 97, 0.905, 51, 34, '良'],
-      [17, 54, 27, 47, 0.592, 53, 12, '良'],
-      [18, 51, 61, 97, 0.811, 65, 19, '良'],
-      [19, 91, 71, 121, 1.374, 43, 18, '良'],
-      [20, 73, 102, 182, 2.787, 44, 19, '良'],
-      [21, 73, 50, 76, 0.717, 31, 20, '良'],
-      [22, 84, 94, 140, 2.238, 68, 18, '良'],
-      [23, 93, 77, 104, 1.165, 53, 7, '良'],
-      [24, 99, 130, 227, 3.97, 55, 15, '良'],
-      [25, 146, 84, 139, 1.094, 40, 17, '轻度污染'],
-      [26, 113, 108, 137, 1.481, 48, 15, '轻度污染'],
-      [27, 81, 48, 62, 1.619, 26, 3, '良'],
-      [28, 56, 48, 68, 1.336, 37, 9, '良'],
-      [29, 82, 92, 174, 3.29, 0, 13, '良'],
-      [30, 106, 116, 188, 3.628, 101, 16, '轻度污染'],
-      [31, 118, 50, 0, 1.383, 76, 11, '轻度污染']
-    ],
-    dataSH: [
-      [1, 91, 45, 125, 0.82, 34, 23, '良'],
-      [2, 65, 27, 78, 0.86, 45, 29, '良'],
-      [3, 83, 60, 84, 1.09, 73, 27, '良'],
-      [4, 109, 81, 121, 1.28, 68, 51, '轻度污染'],
-      [5, 106, 77, 114, 1.07, 55, 51, '轻度污染'],
-      [6, 109, 81, 121, 1.28, 68, 51, '轻度污染'],
-      [7, 106, 77, 114, 1.07, 55, 51, '轻度污染'],
-      [8, 89, 65, 78, 0.86, 51, 26, '良'],
-      [9, 53, 33, 47, 0.64, 50, 17, '良'],
-      [10, 80, 55, 80, 1.01, 75, 24, '良'],
-      [11, 117, 81, 124, 1.03, 45, 24, '轻度污染'],
-      [12, 99, 71, 142, 1.1, 62, 42, '良'],
-      [13, 95, 69, 130, 1.28, 74, 50, '良'],
-      [14, 116, 87, 131, 1.47, 84, 40, '轻度污染'],
-      [15, 108, 80, 121, 1.3, 85, 37, '轻度污染'],
-      [16, 134, 83, 167, 1.16, 57, 43, '轻度污染'],
-      [17, 79, 43, 107, 1.05, 59, 37, '良'],
-      [18, 71, 46, 89, 0.86, 64, 25, '良'],
-      [19, 97, 71, 113, 1.17, 88, 31, '良'],
-      [20, 84, 57, 91, 0.85, 55, 31, '良'],
-      [21, 87, 63, 101, 0.9, 56, 41, '良'],
-      [22, 104, 77, 119, 1.09, 73, 48, '轻度污染'],
-      [23, 87, 62, 100, 1, 72, 28, '良'],
-      [24, 168, 128, 172, 1.49, 97, 56, '中度污染'],
-      [25, 65, 45, 51, 0.74, 39, 17, '良'],
-      [26, 39, 24, 38, 0.61, 47, 17, '优'],
-      [27, 39, 24, 39, 0.59, 50, 19, '优'],
-      [28, 93, 68, 96, 1.05, 79, 29, '良'],
-      [29, 188, 143, 197, 1.66, 99, 51, '中度污染'],
-      [30, 174, 131, 174, 1.55, 108, 50, '中度污染'],
-      [31, 187, 143, 201, 1.39, 89, 53, '中度污染']
-    ],
-    schema: [
-      { name: 'date', index: 0, text: '日期' },
-      { name: 'AQIindex', index: 1, text: 'AQI' },
-      { name: 'PM25', index: 2, text: 'PM2.5' },
-      { name: 'PM10', index: 3, text: 'PM10' },
-      { name: 'CO', index: 4, text: ' CO' },
-      { name: 'NO2', index: 5, text: 'NO2' },
-      { name: 'SO2', index: 6, text: 'SO2' },
-      { name: '等级', index: 7, text: '等级' }
-    ],
-    lineStyle: {
-      normal: {
-        width: 1,
-        opacity: 0.5
-      }
-    }
+  AirListData: {// 左侧大气实时状况
+    TSPAirListData: {
+      myColor: 'rgb(4,4,4)', // 默认颜色色值
+      dataName: 'TSP', // 默认数据类型名称
+      dataValue: 0, // 原值
+      rateVaule:0, // 默认数据类型值此处是百分比 dataValue/maxValue
+      maxValue: 1000,//最大值
+      WhiteBoxValue: 99.5, // 白框的长度，根据数值范围定长,
+      OuterLineValue: 100 // 外框的长度，根据数值范围定长
+    },
+    O3AirListData: { myColor: 'rgb(252,255,1)', dataName: 'O3', dataValue: 0,maxValue: 1200 },
+    SO2AirListData: { myColor: 'rgb(64,239,105)', dataName: 'SO2', dataValue: 0,maxValue: 2600 },
+    PM10AirListData: { myColor: 'rgb(232,37,5)', dataName: 'PM10', dataValue: 0,maxValue: 600 },
+    PM25AirListData: { myColor: 'rgb(3,167,243)', dataName: 'PM2.5', dataValue: 0,maxValue: 250 }
   }
 }
 
 export default {
   name: 'DashboardAdmin',
   components: {
-    LineChart,
-    // PieChart,
-    Parallel
+    WeatherTemp,
+    WeatherHumi,
+    WeatherHeader,
+    MsgList,
+    AirList,
+    AirCalendar,
+    LegendView,
+    FactoryDevicePoint
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis,
-      lineChartDatas: lineChartData.parallelaqi
+      WeatherTempData: { TempValue: 0 }, // 左侧温度
+      WeatherHumiData: { HumiValue: 0 }, // 左侧湿度
+      WeatherHeaderData: { // 左侧天气
+        iconClass:'Sunny',
+        cur_temp:'0',
+        max_temp:'0',
+        min_temp:'0',
+        cur_weather: '晴天'
+      },
+      AirListData: {// 左侧大气实时状况
+        TSPAirListData: {
+          myColor: 'rgb(4,4,4)', // 默认颜色色值
+          dataName: '   TSP', // 默认数据类型名称
+          dataValue: 0, // 原值
+          rateVaule:0, // 默认数据类型值此处是百分比 dataValue/maxValue
+          maxValue: 1000,//最大值
+          WhiteBoxValue: 99.5, // 白框的长度，根据数值范围定长,
+          OuterLineValue: 100 // 外框的长度，根据数值范围定长
+        },
+        O3AirListData: { myColor: 'rgb(252,255,1)', dataName: '     O3', dataValue: 0,maxValue: 1200 },
+        SO2AirListData: { myColor: 'rgb(64,239,105)', dataName: '   SO2', dataValue: 0,maxValue: 2600 },
+        PM10AirListData: { myColor: 'rgb(232,37,5)', dataName: ' PM10', dataValue: 0,maxValue: 600 },
+        PM25AirListData: { myColor: 'rgb(3,167,243)', dataName: 'PM2.5', dataValue: 0,maxValue: 250 }
+      },
+      FactoryDevicePointData:[],
+      AirCalendarData: { // 右侧空气质量日历
+        startTime: diffDate( 30, 2,'YYYY-MM-DD',moment().format('YYYY-MM-DD')),
+        endTime: moment().format('YYYY-MM-DD'),
+        heatmapData: [],
+        shapeSize: [50, 50] // [宽,高]
+      },
+      MsgListData: [], //右侧 实时消息
+      bgLeftImg: bgLeftImg,
+      bgRightImg: bgRightImg,
     }
   },
+  mounted() {
+    // TODO 此处统一请求接口
+    this.getAirCalendar()
+    this.getMsgList()
+    this.getAirList()
+    this.getWeatherData()
+    this.getCurrentWeather()
+    this.getFactoryDevicePoint()
+  },
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
-      this.lineChartDatas = lineChartDatas[type]
+    //  该方法为数据赋值
+    handleSetLineChartData(type,val) {
+      const __ = this.AirListData
+      const __copy = this.AirList
+      switch (type) {
+        case 'TSP':
+          __.TSPAirListData.dataValue = val
+          __.TSPAirListData.rateVaule = Math.round((val/__.TSPAirListData.maxValue)*100)
+        case 'O3':
+          __.O3AirListData.dataValue = val
+          __.O3AirListData.rateVaule = Math.round((val/__.O3AirListData.maxValue)*100)
+        case 'SO2':
+          __.SO2AirListData.dataValue = val
+          __.SO2AirListData.rateVaule = Math.round((val/__.SO2AirListData.maxValue)*100)
+        case 'PM10':
+          __.PM10AirListData.dataValue = val
+          __.PM10AirListData.rateVaule = Math.round((val/__.PM10AirListData.maxValue)*100)
+        case 'PM25':
+          __.PM25AirListData.dataValue = val
+          __.PM25AirListData.rateVaule = Math.round((val/__.PM25AirListData.maxValue)*100)
+      }
+    },
+    // 预警实时消息
+    async getMsgList() {
+      try {
+        const ret = await getNoticeList()
+        this.MsgListData = ret.data.list || []
+      } catch (error) {}
+    },
+    // 大气实时数据
+    async getAirList() {
+      try {
+        const ret = await getAirDataList()
+         this.handleSetLineChartData('TSP',parseInt(ret.data.TSP.toFixed(0)))
+         this.handleSetLineChartData('O3',parseInt(ret.data.O3.toFixed(0)))
+        this.handleSetLineChartData('SO2',parseInt(ret.data.SO2.toFixed(0)))
+        this.handleSetLineChartData('PM10',parseInt(ret.data.PM10.toFixed(0)))
+        this.handleSetLineChartData('PM25',parseInt(ret.data.PM25.toFixed(0)))
+      } catch (error) {}
+    },
+    // 空气质量日历
+    async getAirCalendar() {
+      try {
+        const ret = await getAirCalendarDataList()
+        const __ = this.AirCalendarData
+        __.startTime = ret.data.range[0] || diffDate(moment().format('YYYY-MM-DD'), 30, 2)
+        __.endTime = ret.data.range[1] || moment().format('YYYY-MM-DD')
+        __.heatmapData = ret.data.data[0] || []
+      } catch (error) {}
+    },
+    // 空气温度 湿度
+    async getWeatherData() {
+      try {
+        const ret = await getWeatherData()
+        const __ = this.WeatherTempData
+        __.TempValue = ret.data.temperature || 0 // 温度
+        __.HumiValue = ret.data.humidity || 0 // 湿度
+      } catch (error) {}
+    },
+    // 空气
+    async getCurrentWeather() {
+      try {
+        const ret = await getCurrentWeather()
+        const __ = this.WeatherHeaderData
+        __.iconClass = ret.data.cur_weathere || 'Sunny';
+        __.cur_weather = ret.data.cur_weather || '晴天';
+        __.cur_temp = ret.data.cur_temp || 0;
+        __.min_temp = ret.data.min_temp || 0;
+        __.max_temp = ret.data.max_temp || 0;
+      } catch (error) {}
+    },
+    //地图
+    async getFactoryDevicePoint() {
+      try {
+        const ret = await getFactoryDevicePoint()
+        this.FactoryDevicePointData = ret.data.list || []
+        console.log('ret',ret)
+      } catch (error) {}
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .dashboard-editor-container {
-    padding: 32px;
-    background-color: rgb(240, 242, 245);
-    position: relative;
+.dashboard-editor-container {
+  padding: 32px;
+  //background-color: rgb(240, 242, 245);
+  position: relative;
 
-    .github-corner {
-      position: absolute;
-      top: 0px;
-      border: 0;
-      right: 0;
-    }
-
-    .chart-wrapper {
-      background: #fff;
-      padding: 16px 16px 0;
-      margin-bottom: 32px;
-    }
+  .github-corner {
+    position: absolute;
+    top: 0px;
+    border: 0;
+    right: 0;
   }
 
-  @media (max-width:1024px) {
-    .chart-wrapper {
-      padding: 8px;
+  .chart-wrapper {
+    background: #fff;
+    padding: 16px 16px 0;
+    margin-bottom: 32px;
+  }
+
+  .real-value{
+    width: 100%;
+    // height: 500px;
+    display:flex;
+  }
+  .msg-box{
+    margin-bottom:32px;
+    height: 280px;
+  }
+  .aircalendar-box{
+    margin-top: 20px;
+    height: 440px;
+  }
+  .weather-box{
+    margin-top: 30px;
+    height: 430px;
+  }
+  .air-box{
+    margin-top: 20px;
+  }
+  .factory-box{
+    display: flex;
+    height: 845px;
+    .bg-left-img,.bg-right-img{
+      width: 100px;
+      height: 100%;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .factory-info{
+      height: 80%;
+      width: 100%;
+      margin: 80px 0;
     }
   }
+}
+
+@media (max-width: 1024px) {
+  .chart-wrapper {
+    padding: 8px;
+  }
+}
 </style>

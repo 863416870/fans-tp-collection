@@ -4,21 +4,26 @@ import Layout from '@/layout'
 const dust = {
   path: '/dust',
   component: Layout,
-  redirect: '/dust/tsp',
+  redirect: '/dust/index/TSP',
   name: 'Dust',
   meta: { title: '扬尘数据', icon: 'air' },
   children: [
     {
-      path: 'tsp',
+      path: 'index/TSP',
       name: 'TSP',
-      component: () => import('@/views/dust/TSP'),
+      component: () => import('@/views/air/index'),
       meta: { title: 'TSP数据' }
     },
     {
-      path: ''
+      path: 'compare/TSP',
+      name: 'CTSP',
+      component: () => import('@/views/air/compare'),
+      meta: { title: 'TSP数据' },
+      hidden: true
     }
 
-  ]
+  ],
+  alwaysShow: true
 }
 
 export default dust

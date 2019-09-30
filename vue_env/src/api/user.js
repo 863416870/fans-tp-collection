@@ -12,13 +12,13 @@ export function getInfo(token) {
   return request({
     url: '/common/info',
     method: 'get',
-    params: { token }
+    params: { token },
   })
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/logout',
     method: 'post'
   })
 }

@@ -7,11 +7,12 @@
       row-key="id"
       :border="border"
       :data="currentData"
+      :header-cell-style="tableHeaderColor"
       :highlight-current-row="highlightCurrentRow ? true : false"
       :element-loading-text="loadingText"
       :element-loading-spinner="loadingIcon"
       :element-loading-background="loadingBG"
-      :row-class-name="rowClassName"
+      :row-class-name="tableRowClassName"
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange"
       @select-all="selectAll"
@@ -42,7 +43,7 @@
         v-if="operate.length > 0"
         label="操作"
         fixed="right"
-        width="175"
+        width="250"
       >
         <template slot-scope="scope">
           <el-button
@@ -72,6 +73,7 @@
 <script>
 // import Sortable from 'sortablejs'
 // import FileSaver from 'file-saver'
+import Utils from '@/utils/util.js'
 
 export default {
   props: {
@@ -241,19 +243,22 @@ export default {
     sessionStorage.setItem('selectedTableData', JSON.stringify([]))
   },
   methods: {
-    // 开发者自定义的函数
+    // 行内操作,具体方法在调用的模块定义
     buttonMethods(func, index, row) {
-      const _this = this
-      const { methods } = this.$options
-      methods[func](_this, index, row)
+      this.$emit(func, { index, row })
     },
-    // 行内编辑
-    handleEdit(_this, index, row) {
-      _this.$emit('handleEdit', { index, row })
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex % 2 == 0) {
+        return 'dark-row'
+      } else {
+        return 'light-row'
+      }
     },
-    // 行内删除
-    handleDelete(_this, index, row) {
-      _this.$emit('handleDelete', { index, row })
+
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return 'background-color: #0e0d4f;color: #fff;font-weight: bold;border-right: 1px solid #fff'
+      }
     },
     // 多选-选中checkbox
     toggleSelection(rows, flag) {
@@ -397,6 +402,7 @@ export default {
 <style lang="scss" scoped>
   .zzd-table {
     position: relative;
+    border: 1px solid #fff;
   }
 
   .sort-input {
@@ -429,10 +435,29 @@ export default {
     margin-right: -10px;
     margin-top: 15px;
   }
+
 </style>
 
 <style>
   .zzd-table .rowClassName {
     cursor: move !important;
+  }
+  .el-table .dark-row {
+    background: #0e0d4f;
+    color: #fff;
+  }
+  .el-table .hover-row {
+    background: #0e0d4f;
+    color: #fff;
+  }
+  .el-table .light-row {
+    background: #1f1e79;
+    color: #fff;
+  }
+  .el-table .light-row td{
+    background: #1f1e79!important;
+  }
+  tbody td{
+    border-right: 1px solid #fff;
   }
 </style>

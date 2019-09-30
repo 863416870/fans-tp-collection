@@ -5,39 +5,74 @@ import Layout from '@/layout'
 const weather = {
   path: '/weather',
   component: Layout,
-  redirect: '/weather/temp',
+  redirect: '/weather/index/TEMP',
   name: 'Weather',
   meta: { title: '气象数据', icon: 'weather' },
   children: [
     {
-      path: 'temp',
+      path: 'index/TEMP',
       name: 'TEMP',
-      component: () => import('@/views/weather/TEMP'),
+      component: () => import('@/views/air/index'),
       meta: { title: '温度数据' }
     },
     {
-      path: 'humi',
+      path: 'index/HUMI',
       name: 'HUMI',
-      component: () => import('@/views/weather/HUMI'),
+      component: () => import('@/views/air/index'),
       meta: { title: '湿度数据' }
     },
     {
-      path: 'illum',
+      path: 'index/ILLUM',
       name: 'ILLUM',
-      component: () => import('@/views/weather/ILLUM'),
+      component: () => import('@/views/air/index'),
       meta: { title: '照度数据' }
     },
     {
-      path: 'ws',
+      path: 'index/WS',
       name: 'WS',
-      component: () => import('@/views/weather/WS'),
+      component: () => import('@/views/air/index'),
       meta: { title: '风速数据' }
     },
     {
-      path: 'wd',
+      path: 'index/WD',
       name: 'WD',
-      component: () => import('@/views/weather/WD'),
+      component: () => import('@/views/air/index'),
       meta: { title: '风力数据' }
+    },
+    {
+      path: 'compare/TEMP',
+      name: 'CTEMP',
+      component: () => import('@/views/air/compare'),
+      meta: { title: '温度数据' },
+      hidden: true
+    },
+    {
+      path: 'compare/HUMI',
+      name: 'CHUMI',
+      component: () => import('@/views/air/compare'),
+      meta: { title: '湿度数据' },
+      hidden: true
+    },
+    {
+      path: 'compare/ILLUM',
+      name: 'CILLUM',
+      component: () => import('@/views/air/compare'),
+      meta: { title: '照度数据' },
+      hidden: true
+    },
+    {
+      path: 'compare/WS',
+      name: 'CWS',
+      component: () => import('@/views/air/compare'),
+      meta: { title: '风速数据' },
+      hidden: true
+    },
+    {
+      path: 'compare/WD',
+      name: 'CWD',
+      component: () => import('@/views/air/compare'),
+      meta: { title: '风力数据' },
+      hidden: true
     }
 
   ]

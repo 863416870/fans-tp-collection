@@ -1,34 +1,78 @@
-# vue-admin-template
+# vue_env_fe 
 
-English | [简体中文](./README-zh.md)
+- 环境介绍
+- <a href="#环境目录">环境目录</a>
+- <a href="#本地运行">本地运行</a>
+- <a href="#手动装特殊包">手动装特殊包</a>
+- <a href="#打包发布">打包发布</a>
+- <a href="#commonInfo">关于commonInfo接口</a>
+- <a href="#建议">建议</a>
+- <a href="#浏览器支持">浏览器支持</a>
 
-> A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
+#### <a id="环境目录">环境项目</a>
 
-**Live demo:** http://panjiachen.github.io/vue-admin-template
+```shell
+├───mock // 模拟数据
+├───public // 公共资源目录，该目录webpack原封打包
+│    ├───favicon.ico // 本站favicon图片
+│    │   index.html // template模板
+├───src
+│    ├───api // 所有请求模型层
+│    ├───assets // 静态资源文件存放目录
+│    ├───components // 布局组件及业务基础组件
+│    │   ├───Base // 通用基础组件库（包含element-ui二次封装组件）
+│    │   ├───BackToTop // 返回顶部组件
+│    │   ├───Breadcrumb // 面包屑路由组件
+│    │   ├───Hamburger //  自适应收缩侧边栏组件
+│    │   ├───Notify //  消息提醒组件
+│    │   ├───Screenfull //  全屏组件
+│    │   ├───SvgIcon //  SvgIcon组件
+│    │   ├───..... //  XXX扩展组件
+│    ├───icons // 项目所有 svg icons
+│    ├───layout // layout布局组件
+│    ├───router // 前端路由
+│    │   ├───modules // 每个业务模型的路由树
+│    │   │   index.js // vue-router入口文件
+│    ├───store // vuex状态管理文件
+│    ├───styles // 全局样式管理文件
+│    ├───utils // 各种工具函数
+│    ├───views // 业务组件
+│    │   App.vue // vue根组件
+│    │   main.js // 入口文件 加载组件 初始化等
+│    │   setting.js //初始化全局设置
+│    │   setUrl.js //全局图片设置
+│    └── permission.js //权限管理
+│   babel.config.js // babel配置文件
+│   .browserslistrc // 适配浏览器版本
+│   .eslintrc.js // eslint配置文件
+│   .gitignore // git上传忽略文件
+│   .babelrc  // babel-loader 配置
+│   .travis.yml  // 自动化CI配置
+│   vue.config.js // vue-cli 配置
+│   postcss.config.js// postcss 配置
+└── package.json // package.json
+```
 
 
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
 
-## Build Setup
-
-
+#### <a id="#本地运行">Build Setup</a>
 ```bash
-# clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
-
-# enter the project directory
-cd vue-admin-template
-
 # install dependency
 npm install
 
 # develop
 npm run dev
 ```
+#### <a id="#手动装特殊包">Build Setup</a>
+```bash
+# 首页展示预警信息滚动
+npm install vue-seamless-scroll --save
 
-This will automatically open http://localhost:9528
+```
 
-## Build
+This will automatically open http://localhost:8080
+
+#### <a id="#打包发布">Build</a>
 
 ```bash
 # build for test environment
@@ -37,8 +81,46 @@ npm run build:stage
 # build for production environment
 npm run build:prod
 ```
+#### <a id="#打包发布">关于commonInfo接口</a>
+```bash
+//TODO 此处有好建议可更换 
+# 装包
+npm install --save vuex-persist
+# 引入：
+import VuexPersistence from 'vuex-persist'
+# 先创建一个对象并进行配置：
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+  reducer: state => ({ // eslint-disable-line
+    commonInfo: state.app.commonInfo,
+  }),
+})
+# 引入进vuex插件：
+const store = new Vuex.Store({
+  modules: {
+  	app, 
+  },
+  getters,
+  plugins: [vuexLocal.plugin],
+})
 
-## Advanced
+# vuex [...action\getter\state\mutation 文件位置store/modules/app.js]
+#页面使用
+----js部分
+import { mapGetters } from 'vuex'
+export default {
+	computed: {
+    ...mapGetters([
+      'commonInfo',
+    ])
+  },
+}
+----template部分 此处不上图文
+  {{commonInfo['warnDeviceStatusMap'][1]}}
+```
+
+
+#### <a id="#建议">Advanced</a>
 
 ```bash
 # preview the release environment effect
@@ -54,27 +136,7 @@ npm run lint
 npm run lint -- --fix
 ```
 
-Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
-
-## Demo
-
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
-
-## Extra
-
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
-
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
-
-## Related Project
-
-[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-[electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-[vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-## Browsers support
+#### <a id="#浏览器支持">Browsers support</a>
 
 Modern browsers and Internet Explorer 10+.
 
@@ -82,8 +144,4 @@ Modern browsers and Internet Explorer 10+.
 | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
 
-## License
 
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
-
-Copyright (c) 2017-present PanJiaChen
