@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Utils from 'lin/utils/util'
+import Utils from '@/utils/util'
 
 export default {
   props: {

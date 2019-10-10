@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import routes from './routes'
 import Home from '@/views/Home.vue'
 
 Vue.use(Router)
 
-// // 判断是否需要登录访问, 配置位于 config 文件夹
+// 判断是否需要登录访问, 配置位于 config 文件夹
 // let isLoginRequired = (routeName) => {
 //   // 首次执行时缓存配置
 //   let { notLoginRoute } = appConfig
@@ -31,16 +32,16 @@ Vue.use(Router)
 //
 //   return isLoginRequired(routeName)
 // }
-//
-// const router = new Router({
-//   // mode: 'history',
-//   scrollBehavior: () => ({
-//     y: 0,
-//   }),
-//   base: process.env.BASE_URL,
-//   routes,
-// })
-//
+
+const router = new Router({
+  // mode: 'history',
+  scrollBehavior: () => ({
+    y: 0,
+  }),
+  base: process.env.BASE_URL,
+  routes,
+})
+
 // router.beforeEach((to, from, next) => {
 //   // 登录验证
 //   if (isLoginRequired(to.name) && !store.state.logined) {
@@ -74,25 +75,25 @@ Vue.use(Router)
 //
 //   next()
 // })
-//
-// export default router
 
-export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
-    }
-  ]
-})
+export default router
+
+// export default new Router({
+//   mode: 'history',
+//   base: process.env.BASE_URL,
+//   routes: [
+//     {
+//       path: '/',
+//       name: 'home',
+//       component: Home
+//     },
+//     {
+//       path: '/about',
+//       name: 'about',
+//       // route level code-splitting
+//       // this generates a separate chunk (about.[hash].js) for this route
+//       // which is lazy-loaded when the route is visited.
+//       component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+//     }
+//   ]
+// })

@@ -2,6 +2,10 @@ import '@babel/polyfill'// babel帮我们编译es6语法
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 
+import '@/directives'
+import '@/filter'
+import '@/mixin'
+
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'

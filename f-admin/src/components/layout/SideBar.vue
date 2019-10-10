@@ -1,10 +1,11 @@
 <template>
   <div class="app-sidebar">
     <div class="logo" v-if="!isCollapse">
-      <img src="../../assets/img/logo.png" alt="">
+<!--      <img src="../../assets/img/logo.png" alt="">-->
+
     </div>
     <div class="mobile-logo" v-else>
-      <img src="../../assets/img/mobile-logo.png" alt="">
+<!--      <img src="../../assets/img/mobile-logo.png" alt="">-->
     </div>
     <div style="margin-bottom:50px">
       <el-menu
@@ -80,7 +81,7 @@
 </template>
 
 <script>
-import Utils from '@/lin/utils/util'
+import Utils from '@/utils/util'
 /* eslint-disable no-restricted-syntax */
 import { mapGetters } from 'vuex'
 
@@ -107,6 +108,7 @@ export default {
       return ''
     },
     stageInfo() {
+      console.log('this.$route.name',this.$route.name)
       return this.$store.getters.getStageInfo(this.$route.name)
     },
     // 由于index不支持symbol格式, 因此使用 idMap 进行映射

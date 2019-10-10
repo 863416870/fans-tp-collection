@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import getters from './getters'
+import mutations from './mutations'
+import state from './state'
+import * as getters from './getters'
+import actions from './actions'
 import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
@@ -30,6 +33,9 @@ const store = new Vuex.Store({
     //     user
     // },
     modules,
+    state,
+    mutations,
+    actions,
     getters,
     plugins: [vuexLocal.plugin],
 })

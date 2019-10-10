@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Notify from 'lin/models/notify'
+// import Notify from 'lin/models/notify'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {

@@ -106,7 +106,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import User from '@/lin/models/user'
+// import User from '@/lin/models/user'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
@@ -292,7 +292,7 @@ export default {
             })
             this.cropVisible = false
             // 触发重新获取用户信息
-            return User.getInformation()
+            // return User.getInformation()
           }
           return Promise.reject(new Error('更新头像失败'))
         }).then((res) => { // eslint-disable-line
