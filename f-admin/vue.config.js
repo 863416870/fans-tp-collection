@@ -21,7 +21,23 @@ module.exports = {
       .loader('vue-loader')
       .end()
       .use("vue-markdown-loader")
-      .loader('vue-markdown-loader/lib/markdown-compiler')     
+      .loader('vue-markdown-loader/lib/markdown-compiler')
+    // set svg-sprite-loader
+    config.module
+        .rule('svg')
+        .exclude.add(resolve('src/icons'))
+        .end()
+    config.module
+        .rule('icons')
+        .test(/\.svg$/)
+        .include.add(resolve('src/icons'))
+        .end()
+        .use('svg-sprite-loader')
+        .loader('svg-sprite-loader')
+        .options({
+          symbolId: 'icon-[name]'
+        })
+        .end()
   },
   configureWebpack: {
     resolve: {

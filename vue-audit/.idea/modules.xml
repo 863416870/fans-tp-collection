@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../f-admin/.idea/f-admin.iml" filepath="$PROJECT_DIR$/../f-admin/.idea/f-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../lin-cms-vue/.idea/lin-cms-vue.iml" filepath="$PROJECT_DIR$/../../lin-cms-vue/.idea/lin-cms-vue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/vue-audit.iml" filepath="$PROJECT_DIR$/.idea/vue-audit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../dot/env/vue_env_fe/.idea/vue_env_fe.iml" filepath="$PROJECT_DIR$/../../../dot/env/vue_env_fe/.idea/vue_env_fe.iml" />
+    </modules>
+  </component>
+</project>
