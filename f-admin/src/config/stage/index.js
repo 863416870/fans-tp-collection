@@ -21,6 +21,15 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont icon-rizhiguanli',
   },
+  {
+    title: '405',
+    type: 'view',
+    name: Symbol('405'),
+    route: '/404',
+    filePath: 'views/error-page/404.vue',
+    inNav: true,
+    icon: 'iconfont icon-rizhiguanli',
+  },
 ]
 
 // 处理顺序

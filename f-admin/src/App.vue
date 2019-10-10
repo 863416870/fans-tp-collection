@@ -15,7 +15,7 @@
       }
     },
     mounted() {
-      // document.getElementById('loader').style.display = 'none'
+      document.getElementById('loader').style.display = 'none'
     },
     provide() {
       // eventBus挂载的事件： addGroup addUser
