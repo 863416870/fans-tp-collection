@@ -9,7 +9,7 @@
                     <div class="left">
                         <div class="operate" ref="operate">
                             <i
-                                    class="iconfont icon-fold"
+                                    class="iconfont iconfold"
                                     :class="{rotate: foldState}"
                                     @click="changeSlidebarState"
                             />

@@ -6,7 +6,7 @@
       <breadcrumb />
       <!-- 暂时放这里 -->
       <div class="right-info">
-        <notify v-auth="'消息推送'" v-show="false" />
+        <notify v-auth="'消息推送'" v-show="true" />
         <screenfull />
         <user></user>
       </div>

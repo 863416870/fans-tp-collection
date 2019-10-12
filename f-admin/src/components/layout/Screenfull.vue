@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <i class="iconfont" :class="isFullscreen?'icon-quxiaoquanping':'icon-quanping'" @click="handleFullScreen"></i>
+    <i class="iconfont" :class="isFullscreen?'iconquxiaoquanping':'iconquanping'" @click="handleFullScreen"></i>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="backTop" :style="{ right: right + 'px', bottom: bottom + 'px' }" v-if="showBackTop">
-    <i class="iconfont icon-xsaaa" :style="{ fontSize: fontSize + 'px'}" @click="backTop"></i>
+    <i class="iconfont iconscrollTop"  @click="backTop"></i>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
     },
     fontSize: {
       type: Number,
-      default: 18,
+      default: 16,
     },
   },
   data() {

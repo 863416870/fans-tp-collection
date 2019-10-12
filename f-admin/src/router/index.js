@@ -48,11 +48,11 @@ router.beforeEach((to, from, next) => {
 
 
   // 登录验证
-  if (isLoginRequired(to.name) && !store.state.logined) {
-    console.log('store.state.logined',store.state.logined)
-    next({ path: '/login' })
-    return
-  }
+  // if (isLoginRequired(to.name) && !store.state.logined) {
+  //   console.log('store.state.logined',store.state.logined)
+  //   next({ path: '/login' })
+  //   return
+  // }
   // TODO: tab 模式重复点击验证
 
   // 权限验证
@@ -82,22 +82,3 @@ router.beforeEach((to, from, next) => {
 
 export default router
 
-// export default new Router({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'home',
-//       component: Home
-//     },
-//     {
-//       path: '/about',
-//       name: 'about',
-//       // route level code-splitting
-//       // this generates a separate chunk (about.[hash].js) for this route
-//       // which is lazy-loaded when the route is visited.
-//       component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
-//     }
-//   ]
-// })

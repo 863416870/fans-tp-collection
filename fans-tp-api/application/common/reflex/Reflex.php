@@ -68,7 +68,7 @@ class Reflex
         try {
             if(!is_object($object)) throw new \Exception('需要一个类。作为参数~');
             $this->object = $object;
-            $this->reflex = new ReflexModle($this->object);
+            $this->reflex = new \app\common\reflex\ReflexModel($this->object);
             $reflexDoc = $this->reflex->getDocComment();
             $this->parse = new Parse($reflexDoc);
             return $this;

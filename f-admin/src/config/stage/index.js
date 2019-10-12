@@ -21,15 +21,15 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont icon-rizhiguanli',
   },
-  // {
-  //   title: 'login',
-  //   type: 'view',
-  //   name: Symbol('login'),
-  //   route: '/login',
-  //   filePath: 'views/login/Login.vue',
-  //   inNav: true,
-  //   icon: 'iconfont icon-rizhiguanli',
-  // },
+  {
+    title: '个人中心',
+    type: 'view',
+    name: Symbol('personal'),
+    route: '/personal',
+    filePath: 'views/personal/index.vue',
+    inNav: false,
+    icon: 'iconfont icongerenzhongxin-zhong',
+  },
 ]
 
 // 处理顺序

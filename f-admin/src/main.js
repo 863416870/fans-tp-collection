@@ -5,6 +5,7 @@ import ElementUI from 'element-ui'
 import '@/directives'
 import '@/filter'
 import '@/mixin'
+import '@/plugins'
 
 import App from '@/App.vue'
 import router from '@/router'
