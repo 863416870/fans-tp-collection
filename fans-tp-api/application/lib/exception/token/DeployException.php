@@ -6,7 +6,7 @@
 namespace app\lib\exception\token;
 
 
-use LinCmsTp5\exception\BaseException;
+use app\common\exception\BaseException;
 
 class DeployException extends BaseException
 {

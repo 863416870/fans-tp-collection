@@ -8,11 +8,12 @@
 
 namespace app\common\model;
 
-use app\common\exception\BaseException;
+use app\lib\exception\logger\LoggerException;
 use think\Model;
 
 class Log extends Model
 {
+    protected $table = "lin_table";
     protected $createTime = 'time';
     protected $updateTime = false;
     protected $autoWriteTimestamp = 'datetime';

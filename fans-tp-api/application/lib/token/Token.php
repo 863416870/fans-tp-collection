@@ -10,7 +10,7 @@ namespace app\lib\token;
 
 use app\lib\exception\token\TokenException;
 use Firebase\JWT\JWT;
-use LinCmsTp5\admin\model\LinUser;
+use app\api\model\cms\User as FUser;
 use think\Exception;
 use think\facade\Request;
 
@@ -75,7 +75,7 @@ class Token
     public static function getCurrentUser()
     {
         $uid = self::getCurrentUID();
-        $user = LinUser::get($uid);
+        $user = FUser::get($uid);
         return $user->hidden(['password']);
     }
 
