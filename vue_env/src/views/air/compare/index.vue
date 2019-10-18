@@ -1,16 +1,16 @@
 <template>
 	<div class="air-page">
-		<changeType :type="type" :typeCnName="typeCnName" :rootPath="rootPath" :status="status"></changeType>
+		<ChangeType :type="type" :typeCnName="typeCnName" :rootPath="rootPath" :status="status"></changeType>
 		<div class="panel-default air-page-left" style="overflow:auto;min-width:260px;">
 			<div class="page-heading">
-                <h4>对比维度</h4>
-            </div>
+				<h4>对比维度</h4>
+			</div>
 			<div class="page-body" style="padding:20px 0px;">
-				<compareSidebar 
+				<CompareSidebar 
 				:allMonitorList="allMonitorList" 
 				:type="type" 
 				@btn-confirm="getHourData(arguments)"
-				></compareSidebar>
+				/>
 			</div>
 		</div>
 
@@ -20,7 +20,7 @@
 					<h4>24小时实时{{this.typeCnName}}走势图</h4>
 				</div>
 				<div class="page-body">
-					<lineChart :chart-data="hour24LineData" v-if="hackReset"></lineChart>
+					<LineChart :chart-data="hour24LineData" v-if="hackReset" />
 				</div>
 			</div>
 		</div>
@@ -35,10 +35,9 @@ import '@/styles/air/index.scss';
 import {diffDate, transformDate} from '@/utils/date.js';
 import { enName2CnName } from '@/utils/data-type-adapt.js'
 // 组件
-import compareSidebar from './components/sidebar' //左侧监控点列表
-import changeType from '@/views/air/common/components/changeType' //切换页面
-import airFilter from '@/views/air/common/components/filter' //历史筛选图
-import lineChart from '@/views/air/common/components/lineChart' //折线图
+import CompareSidebar from './components/Sidebar' //左侧监控点列表
+import ChangeType from '@/views/air/common/ChangeType' //切换页面
+import LineChart from '@/views/air/common/LineChart' //折线图
 // 请求
 import { getZoneList} from '@/api/zone' // 监控点
 import { getCompareDataList} from '@/api/data' // charts
@@ -48,16 +47,15 @@ export default {
 	
 	name: 'air',
 	components: {
-		compareSidebar,
-		changeType,
-		airFilter,
-		lineChart
+		CompareSidebar,
+		ChangeType,
+		LineChart
 	},
 	data() {
 		return {
 			type: '', //大气类型
 			rootPath: '', //根路径
-     		hackReset: true, //强制重新渲染数据
+     	hackReset: true, //强制重新渲染数据
 			status: 2, //展示或者对比选中状态
 			rangeIndex: 0, //历史范围默认选中状态
 			start_date: diffDate(7, 2),
@@ -97,7 +95,7 @@ export default {
 			this.radioChecked = _data[1];
 			try {
 				const chartRes = await getCompareDataList(this.data, this.radioChecked)
-        		let data = chartRes.data || {}
+        let data = chartRes.data || {}
 				this.hour24LineData.xAxisData = data.xArray || []
 				this.hour24LineData.lineData = data.dataArray || []
 				this.rebuileComponents()

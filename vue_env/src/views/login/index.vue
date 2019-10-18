@@ -1,8 +1,14 @@
 <template>
   <div class="login-container">
     <div class="bg-area" />
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
         <h3 class="title">{{ navbarHeaderContent }}</h3>
       </div>
@@ -38,113 +44,124 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eyes-close' : 'eyes-open'" />
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;" @click.native.prevent="throttleLogin">登录</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-top:20px;"
+        @click.native.prevent="throttleLogin"
+      >登录</el-button>
 
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
+      <!--      <div class="tips">-->
+      <!--        <span style="margin-right:20px;">username: admin</span>-->
+      <!--        <span> password: any</span>-->
+      <!--      </div>-->
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import Utils from '@/utils/util'
-import setting from '@/store/modules/settings'
+import { validUsername } from "@/utils/validate";
+import Utils from "@/utils/util";
+import setting from "@/store/modules/settings";
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+        callback(new Error("请输入正确的用户名"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
+        callback(new Error("密码不能少于6位"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loginForm: {
-        username: '超管',
-        password: '123456'
+        username: "monkey",
+        password: "123456"
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword }
+        ]
       },
-      navbarHeaderContent: setting.state.navbarHeaderContent || '环境大数据平台',
+      navbarHeaderContent:
+        setting.state.navbarHeaderContent || "环境大数据平台",
       loading: false,
-      passwordType: 'password',
+      passwordType: "password",
       redirect: undefined,
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null // 节流登录
-    }
+    };
   },
   watch: {
     $route: {
       handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+        this.redirect = route.query && route.query.redirect;
       },
       immediate: true
     }
   },
   created() {
     // 节流登录
-    this.throttleLogin = Utils.throttle(this.handleLogin, this.wait)
+    this.throttleLogin = Utils.throttle(this.handleLogin, this.wait);
   },
   methods: {
-
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handleLogin() {
       // TODO 查数据库用户信息 --此处mock.js暂时模拟数据
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
+          this.loading = true;
           // 在actions里封装了一个axios请求
           // 在login页通过this.$store.dispatch提交data里的数据
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          this.$store
+            .dispatch("user/login", this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || "/" });
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#283443;
+$bg: #283443;
+$light_gray: #283443;
 $cursor: #283443;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -187,9 +204,9 @@ $cursor: #283443;
 </style>
 
 <style lang="scss" scoped>
-$bg:#ffffff;
-$dark_gray:#889aa4;
-$light_gray:#5eb8dd;
+$bg: #ffffff;
+$dark_gray: #889aa4;
+$light_gray: #5eb8dd;
 
 .login-container {
   min-height: 100%;
@@ -198,7 +215,7 @@ $light_gray:#5eb8dd;
   overflow: hidden;
   position: relative;
 
-  .bg-area{
+  .bg-area {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -218,7 +235,7 @@ $light_gray:#5eb8dd;
     top: calc(50% - 185px);
     border-radius: 4px;
     padding: 35px;
-    z-index:20;
+    z-index: 20;
   }
 
   .tips {

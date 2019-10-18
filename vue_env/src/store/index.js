@@ -12,6 +12,8 @@ const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({ // eslint-disable-line
     commonInfo: state.app.commonInfo,
+    user: state.user.user,
+    logined: state.user.logined,
   }),
 })
 

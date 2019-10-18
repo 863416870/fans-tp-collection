@@ -1,4 +1,3 @@
-
 import Layout from '@/layout'
 // 首页路由
 const dashboard = {
@@ -9,9 +8,12 @@ const dashboard = {
     path: 'dashboard',
     name: 'Dashboard',
     component: () => import('@/views/dashboard/Index'),
-    meta: { title: '大屏展示', icon: 'dashboard' },
-    hidden: true
-  }]
+    meta: {
+      title: '大屏展示',
+      icon: 'dashboard'
+    },
+  }],
+  hidden: true
 }
 
 export default dashboard

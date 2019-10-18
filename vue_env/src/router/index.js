@@ -13,7 +13,10 @@ import Dust from './modules/dust'
 import Analytics from './modules/analytics'
 import Warning from './modules/warning'
 import Device from './modules/device'
-
+import Audit from './modules/audit'
+import Personal from './modules/personal'
+import Role from './modules/role'
+import Menu from './modules/menu'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -38,8 +41,7 @@ import Device from './modules/device'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-  {
+export const constantRoutes = [{
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -47,7 +49,7 @@ export const constantRoutes = [
 
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/views/error-page/404'),
     hidden: true
   },
   Dashboard,
@@ -58,13 +60,23 @@ export const constantRoutes = [
   Analytics,
   Warning,
   Device,
-  // 404 page must be placed at the end !!!
-  // { path: '*', redirect: '/404', hidden: true }
+  Audit,
+  Personal,
+  Role,
+  Menu,
+  //404 page must be placed at the end !!!
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRoutes
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div class="dashboard-container panel-default">
     <div>
       <adminDashboard />
     </div>
@@ -10,6 +10,7 @@
 import { mapGetters } from 'vuex'
 import adminDashboard from './admin'
 export default {
+
   name: 'Dashboard',
   components: { adminDashboard },
   data() {
@@ -54,7 +55,7 @@ export default {
   background-image: url(./../../assets/dashboard/bg.png);
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: 30px ;
+  // padding-bottom: 30px ;
   // background-color: rgb(240, 242, 245);
 }
 </style>

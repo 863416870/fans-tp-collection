@@ -21,7 +21,7 @@
       },
       height: {
         type: String,
-        default: "320px"
+        default: "350px"
       },
       autoResize: {
         type: Boolean,
@@ -218,7 +218,7 @@
               coordinateSystem: 'calendar',
               data: this.heatmapData
             }
-          ]})
+          ]},true)
       }
     }
   };

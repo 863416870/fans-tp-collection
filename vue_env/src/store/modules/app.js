@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import { saveCommonInfo } from '@/utils/commoninfo'
 import { getCommonInfo } from '@/api/common'
 
 const state = {
@@ -44,12 +43,12 @@ const actions = {
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
   },
+  //commoninfo 信息存入
   changeCommonInfo({ commit }){
     return new Promise((resolve, reject) => {
       getCommonInfo().then(response => {
         console.log('response',response.data.commonInfo)
         commit('COMMON_INFO', response.data.commonInfo)
-        saveCommonInfo(response.data.commonInfo)
         resolve(data)
       }).catch(error => {
         reject(error)

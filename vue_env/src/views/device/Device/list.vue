@@ -17,6 +17,15 @@
       </div>
       <!-- 表格 -->
       <div class="page-body">
+        <div class="common-action-row clearfix">
+          <el-header style="float:right">
+            <el-row>
+              <router-link to="/device/device/add">
+                <el-button type="primary" size="medium">新增设备</el-button>
+              </router-link>
+            </el-row>
+          </el-header>
+        </div>
         <zzd-table
           v-loading="loading"
           :table-column="tableColumn"
@@ -52,10 +61,11 @@
 </template>
 
 <script>
-import axios from 'axios'
 import ZzdTable from '@/components/Base/Table'
 import ZzdTableSearch from '@/components/Base/TableSearch'
 import { getDeviceList, updateDeviceStatus } from '@/api/device'
+import { mapGetters } from 'vuex'
+import Utils from '@/utils/util.js'
 export default {
   name: 'DeviceList',
   components: {
@@ -65,7 +75,7 @@ export default {
   data() {
     return {
       // --搜索 start--
-      searchData: { nadeviceIdme: null, status: '' },
+      searchData: { deviceId: null, status: '' },
       searchForm: [
         {
           type: 'Input',
@@ -79,8 +89,8 @@ export default {
           label: '设备状态',
           prop: 'status',
           width: '180px',
-          filterable: true,
-          options: [{ value: '', label: '请选择' }]// TODO根据接口返回数据
+          filterable: false,
+          options: []// TODO根据接口返回数据
         }
       ],
       // --搜索 end--
@@ -115,27 +125,31 @@ export default {
   async created() {
     this.loading = true
     this.getDataList()
-    this.operate = [
-      { name: '编辑', func: 'handleEdit', type: 'primary' },
-      { name: '删除', func: 'handleDelete', type: 'danger', auth: '删除设备' },
-      { name: '启用/关闭', func: 'handleStatus', type: 'warning' }
-    ]
+    this.operate = {
+      width: '240',
+      data: [
+        { name: '编辑', func: 'handleEdit', type: 'primary' },
+        { name: '删除', func: 'handleDelete', type: 'danger', auth: '删除设备' },
+        { name: '启用/关闭', func: 'handleStatus', type: 'warning' }
+      ]
+    }
     this.loading = false
   },
+  computed: {
+    ...mapGetters([
+      'commonInfo'
+    ])
+  },
   mounted() {
-    // axios.post('device/statusupdate',{"deviceId":2000015444,'status':2},{
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-    //   }}).then(function (res) {
-    //   console.log('res',res)
-    //   }
-    // );
-
+    console.log(this.commonInfo)
+    const arr = Utils.obj2FilterArray(this.commonInfo.warnDeviceStatusMap, true)
+    this.searchForm[1].options = arr
   },
   methods: {
     async getDataList() {
       try {
         const params = { curPage: this.currentPage, perPage: this.pageCount }
+        Object.assign(params, this.searchData)
         const ret = await getDeviceList(params)
         this.tableData = ret.data.list || []
         this.total_nums = parseInt(ret.data.total)
@@ -146,15 +160,15 @@ export default {
       }
     },
     handleEdit(val) {
-      console.log('val', val)
-      this.showEdit = true
-      this.editBookID = val.row.id
+      this.$router.push('/device/device/modify/' + val.row.deviceId)
+      // this.showEdit = true
+      // this.editBookID = val.row.id
     },
     handleDelete(val) {
       this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'danger'
+        type: 'error'
       }).then(async() => {
         console.log('val', val.row.deviceId)
         await this.updateStatus(val.row.deviceId, 2)
@@ -211,7 +225,7 @@ export default {
       }
     },
     handleFilter(val) {
-      console.log('val', val)
+      this.getDataList()
     },
     // 切换table页
     async handleCurrentChange(val) {
@@ -236,23 +250,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .panel-default {
-    .search {
-      display: flex;
-      align-items: center;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: flex-end;
-      margin: 20px;
-    }
-  }
-</style>

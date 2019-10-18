@@ -1,24 +1,24 @@
 <template>
   <el-dropdown>
     <div class="notify">
-      <el-badge :value="3" class="item">
+      <el-badge :value="nums" class="item">
         <img class="icon-img" src="@/assets/notify/铃铛icon.png">
       </el-badge>
     </div>
     <el-dropdown-menu slot="dropdown" style="position:relative;">
       <div class="notify-title">
         <p>消息提醒</p>
-        <p class="button">全部已读</p>
+        <p class="button"  @click="showMore">查看更多</p>
       </div>
       <div class="left-border" />
       <el-dropdown-item
         v-for="unread in unreadMessages"
-        :key="unread.id"
+        :key="unread.warnNoticeId"
         class="unread-messages"
-        @click.native="readMessage(unread)"
+
       >
-        {{ unread.data }}
-        <span class="date-time">08-16 13:22:07</span>
+        {{ unread.ruleName }}
+        <span class="date-time">{{ unread.createTimeText }}</span>
       </el-dropdown-item>
       <el-dropdown-item v-for="readed in readedMessages" :key="readed.id" class="read-messages">
         {{ readed.data }}
@@ -29,20 +29,21 @@
 </template>
 
 <script>
-
+import { getNoticeList } from '@/api/dashboard'
 export default {
   data() {
     return {
       notify: null,
+      nums: 3,
       unreadMessages: [
-        { id: 1, data: '您的仪器一出问题啦!' },
-        { id: 2, data: '您的仪器二出问题啦!' },
-        { id: 3, data: '您的仪器三出问题啦!' }
+        { warnNoticeId: 1, ruleName: '您的仪器一出问题啦!', createTimeText: '2019-08-21 18:26:08' },
+        { warnNoticeId: 2, ruleName: '您的仪器二出问题啦!', createTimeText: '2019-08-21 18:26:08'  },
+        { warnNoticeId: 3, ruleName: '您的仪器三出问题啦!', createTimeText: '2019-08-21 18:26:08'  }
       ],
       readedMessages: [
-        { id: 4, data: '您的仪器四出问题啦!' },
-        { id: 5, data: '您的仪器五出问题啦!' },
-        { id: 6, data: '您的仪器六出问题啦!' }
+        // { id: 4, data: '您的仪器四出问题啦!' },
+        // { id: 5, data: '您的仪器五出问题啦!' },
+        // { id: 6, data: '您的仪器六出问题啦!' }
       ]
     }
   },
@@ -50,11 +51,35 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-
+        this.getMsgList()
     })
   },
+  //mounted是在el挂载到实例上后调用，一般第一个业务逻辑会在这里开启
+  mounted(){
+      var _this = this; //声明一个变量指向Vue实例this，保证作用域一致
+      this.hmsTimer = setInterval(function(){
+          _this.getMsgList()
+      },1000*5*60);
+  },
+  beforeDestroy(){
+      if(this.hmsTimer){
+          clearInterval(this.hmsTimer);  //在Vue实例销毁前，清除定时器
+      }
+  },
   methods: {
-
+      // 预警实时消息
+      async getMsgList() {
+          try {
+              const ret = await getNoticeList()
+              console.log('components|notify|index',ret.data.list )
+              this.unreadMessages =  ret.data.list.slice(0,5)  || []
+              this.nums = ret.data.list.length || 0
+          } catch (error) {}
+      },
+      // 查看更多
+      showMore(){
+          this.$router.push({path: '/warning/info/list'})
+      }
   }
 }
 </script>

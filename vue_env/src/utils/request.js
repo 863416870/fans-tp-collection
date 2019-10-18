@@ -126,9 +126,11 @@ service.interceptors.response.use(
   error => {
     // 请求失败、错误处理回调
     var originalRequest = error.config;
+    console.log(originalRequest)
     if(error.code == 'ECONNABORTED' && error.message.indexOf('timeout')!=-1 && !originalRequest._retry){
       originalRequest._retry = true
-      return service.request(originalRequest);
+      // 重新请求
+      // return service.request(originalRequest);
     }
     Message({
       message: error.message,

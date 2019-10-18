@@ -1,4 +1,8 @@
-import { cloneDeep, throttle, debounce } from 'lodash'
+import {
+  cloneDeep,
+  throttle,
+  debounce
+} from 'lodash'
 
 /* eslint-disable */
 const Utils = {}
@@ -75,11 +79,82 @@ Utils.getRandomStr = (n = 6) => {
 }
 
 /**
+ * 获取uuid
+ */
+Utils.getUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16)
+  })
+}
+
+// 将key-value转换成select中使用的数据label,value
+Utils.obj2FilterArray = (obj, keyIsNumber = false) => {
+  let arr = []
+  for (const key in obj) {
+    const item = {
+      'label': obj[key],
+      'value': keyIsNumber ? parseInt(key) : key
+    }
+    arr.push(item)
+  }
+  return arr
+}
+
+/*功能：将数组转换成select中需要的数据label,value
+ * arr: 传入的数组；
+ * keyIsNumber: key是否数字；
+ * name: item[name],此处的name
+ * value: item[value],此处的value
+ * newArr: 返回的新数组
+ */
+Utils.filterArraySelect = (arr, keyIsNumber = false, newName = 'name', value = 'value') => {
+  let newArr = []
+  arr.forEach((item, index) => {
+    newArr.push({
+      "label": item[newName],
+      "value": item[value]
+    })
+  });
+  return newArr
+}
+
+/**
+ * 树形数据转换
+ * @param {*} data
+ * @param {*} id
+ * @param {*} pid
+ */
+Utils.treeDataTranslate = (data, id = 'id', pid = 'parentId') => {
+  var res = []
+  var temp = {}
+  for (var i = 0; i < data.length; i++) {
+    temp[data[i][id]] = data[i]
+  }
+  for (var k = 0; k < data.length; k++) {
+    if (temp[data[k][pid]] && data[k][id] !== data[k][pid]) {
+      if (!temp[data[k][pid]]['children']) {
+        temp[data[k][pid]]['children'] = []
+      }
+      if (!temp[data[k][pid]]['_level']) {
+        temp[data[k][pid]]['_level'] = 1
+      }
+      data[k]['_level'] = temp[data[k][pid]]._level + 1
+      temp[data[k][pid]]['children'].push(data[k])
+    } else {
+      res.push(data[k])
+    }
+  }
+  return res
+}
+
+/**
  * 返回对象的类型
  * @param {Object} obj
  */
 Utils.getTypeOf = (obj) => {
-  const { toString } = Object.prototype
+  const {
+    toString
+  } = Object.prototype
   const map = {
     '[object Boolean]': 'boolean',
     '[object Number]': 'number',
@@ -97,7 +172,9 @@ Utils.getTypeOf = (obj) => {
 }
 
 function insertItem(item, arr) {
-  const { order } = item
+  const {
+    order
+  } = item
   if (typeof arr[order] !== 'number') {
     arr[order] = item
     return
@@ -152,7 +229,9 @@ Utils.sortByOrder = (source = []) => {
     if (typeof source[i].order !== 'number') {
       continue
     }
-    let { order } = source[i]
+    let {
+      order
+    } = source[i]
     // 支持设置倒数顺序
     if (order < 0) {
       order = source.length + order

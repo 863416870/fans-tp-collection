@@ -1,12 +1,12 @@
 <template>
   <div class="air-page">
-    <changeType :type="type" :typeCnName="typeCnName" :rootPath="rootPath" :status="status" />
+    <ChangeType :type="type" :typeCnName="typeCnName" :rootPath="rootPath" :status="status" />
     <div class="panel-default air-page-left" style="overflow:auto">
       <div class="page-heading">
         <h4>监控点列表</h4>
       </div>
       <div class="page-body">
-        <sidebar
+        <Sidebar
           :monitor-list="monitorList"
           :monitor-index="monitorIndex"
           @changeMonitor="changeMonitor(arguments)"
@@ -20,7 +20,7 @@
           <h4>24小时实时{{ this.typeCnName }}走势图</h4>
         </div>
         <div class="page-body">
-          <lineChart :chart-data="hour24LineData" v-if="hackReset" />
+          <LineChart :chart-data="hour24LineData" v-if="hackReset" />
         </div>
       </div>
       <div class="panel-default">
@@ -28,7 +28,7 @@
           <h4>日均{{ this.typeCnName }}历史走势图</h4>
         </div>
         <div class="page-body">
-          <airFilter
+          <AirFilter
             :range-index="rangeIndex"
             :start_date.sync="start_date"
             :end_date.sync="end_date"
@@ -36,7 +36,7 @@
             @changeRange="changeRange(arguments)"
             @changeDate="getHistoryData(monitorList[monitorIndex].zoneId)"
           />
-          <lineChart :chart-data="historyLineData" v-if="hackReset" />
+          <lineChart :chart-data="historyLineData" v-if="hackReset1" />
         </div>
       </div>
     </div>
@@ -48,27 +48,28 @@
 import '@/styles/air/index.scss'
 import { diffDate, transformDate } from '@/utils/date.js'
 import { enName2CnName } from '@/utils/data-type-adapt.js'
-import sidebar from './components/sidebar' // 左侧监控点列表
-import changeType from '@/views/air/common/components/changeType' // 切换页面
-import airFilter from '@/views/air/common/components/filter' // 历史筛选图
-import lineChart from '@/views/air/common/components/lineChart' // 折线图
+import Sidebar from './components/Sidebar' // 左侧监控点列表
+import ChangeType from '@/views/air/common/ChangeType' // 切换页面
+import AirFilter from '@/views/air/common/AirFilter' // 历史筛选图
+import LineChart from '@/views/air/common/LineChart' // 折线图
 import { getZoneList } from '@/api/zone'
 import { getDataList } from '@/api/data'
 
 export default {
   name: 'air',
 	components: {
-		changeType,
-		sidebar,
-		airFilter,
-		lineChart
+		ChangeType,
+		Sidebar,
+		AirFilter,
+		LineChart
 	},
   data() {
 		return {
       type: '', //大气类型
       rootPath: '', //根路径
       hackReset: true, //强制重新渲染数据
-			monitorIndex: 0, //默认监控点选中第一个           
+      hackReset1: true, //强制重新渲染数据
+			monitorIndex: 0, //默认监控点选中第一个
 			status: 1, //展示或者对比选中状态
 			rangeIndex: 0, //历史范围默认选中状态
 			start_date: diffDate(7, 2),
@@ -82,7 +83,7 @@ export default {
 				{name: '两年',days: '730'},
 			],
       monitorList: [ //监控点列表
-      
+
 			],
       hour24LineData: { // 24小时走势图
         xAxisData: [],
@@ -91,7 +92,7 @@ export default {
 			historyLineData: { // 历史走势图
         xAxisData: [],
         lineData: []
-			}			
+			}
 		}
 	},
   computed: {
@@ -164,10 +165,10 @@ export default {
         let data = ret.data || {}
         this.historyLineData.xAxisData = data.xArray || []
         this.historyLineData.lineData = data.dataArray || [];
-        this.rebuileComponents();
+        this.rebuileComponents1();
       } catch (error) {
         console.log(error)
-      } 
+      }
     },
     rebuileComponents() {
       // 销毁子标签
@@ -175,6 +176,14 @@ export default {
       // 重新创建子标签
       this.$nextTick(() => {
         this.hackReset = true;
+      });
+    },
+    rebuileComponents1() {
+      // 销毁子标签
+      this.hackReset1 = false;
+      // 重新创建子标签
+      this.$nextTick(() => {
+        this.hackReset1 = true;
       });
     },
   },

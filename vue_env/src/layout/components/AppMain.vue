@@ -3,7 +3,7 @@
     <breadcrumb class="breadcrumb-container" />
     <div class="page-container">
       <transition name="fade-transform" mode="out-in">
-          <router-view :key="key" />
+        <router-view :key="key" />
       </transition>
     </div>
 
@@ -16,6 +16,9 @@ export default {
   name: 'AppMain',
   components: {
     Breadcrumb
+  },
+  mounted() {
+      document.getElementById('loader').style.display = 'none'
   },
   computed: {
     key() {

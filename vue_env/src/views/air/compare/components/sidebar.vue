@@ -49,6 +49,7 @@
                         v-model="choose_dateone"
                         type="date"
                         @change="addDate()"
+                        :picker-options="pickerOptions"
                         >
                     </el-date-picker>
                 </div>
@@ -70,14 +71,18 @@
                         size="small"
                         v-model="start_date"
                         type="date"
-                        placeholder="开始日期">
+                        placeholder="开始日期"
+                        :picker-options="pickerOptions"
+                        >
                     </el-date-picker>
                     至
                     <el-date-picker
                         v-model="end_date"
                         size="small"
                         type="date"
-                        placeholder="结束日期">
+                        placeholder="结束日期"
+                        :picker-options="pickerOptions"
+                        >
                     </el-date-picker>
                 </div>
             </div>
@@ -92,7 +97,7 @@ import {diffDate, transformDate} from '@/utils/date.js';
 import { type } from 'os';
 
 export default {
-    name: 'compareSidebar',
+    name: 'CompareSidebar',
     props: {
         allMonitorList: {
             type: Array,
@@ -112,7 +117,12 @@ export default {
             chooseDateList: [transformDate(), diffDate(1, 2)], // 添加的时间列表
             showMonitorList: [], //选中的监控点
             showMonitorListIds: [], //选中的监控点id
-            allMonitorListRet: [] //所有监控点
+            allMonitorListRet: [], //所有监控点
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() > Date.now();
+                },
+            }
         }
     },
     methods: {

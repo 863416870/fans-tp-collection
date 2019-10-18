@@ -42,9 +42,7 @@
       }
     },
     watch:{
-      isShow(val){
-        this.$emit('update:isShow')
-      }
+
     },
     data(){
       return {

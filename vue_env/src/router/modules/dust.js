@@ -1,4 +1,3 @@
-
 import Layout from '@/layout'
 // 扬尘数据路由
 const dust = {
@@ -6,19 +5,25 @@ const dust = {
   component: Layout,
   redirect: '/dust/index/TSP',
   name: 'Dust',
-  meta: { title: '扬尘数据', icon: 'air' },
-  children: [
-    {
+  meta: {
+    title: '扬尘数据',
+    icon: 'dust'
+  },
+  children: [{
       path: 'index/TSP',
       name: 'TSP',
       component: () => import('@/views/air/index'),
-      meta: { title: 'TSP数据' }
+      meta: {
+        title: 'TSP数据'
+      }
     },
     {
       path: 'compare/TSP',
       name: 'CTSP',
       component: () => import('@/views/air/compare'),
-      meta: { title: 'TSP数据' },
+      meta: {
+        title: 'TSP数据'
+      },
       hidden: true
     }
 

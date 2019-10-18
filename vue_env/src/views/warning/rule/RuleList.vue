@@ -1,11 +1,7 @@
 <template>
   <div>
     <!-- 列表页面 -->
-    <div v-if="!showEdit" class="panel-default">
-      <!-- <div class="header">
-        <div class="title">图书列表</div>
-      </div>-->
-      <!-- 搜索 -->
+    <div class="panel-default">
       <div class="search">
         <zzd-table-search
           size="mini"
@@ -17,17 +13,20 @@
       </div>
       <!-- 表格 -->
       <div class="page-body">
+        <div class="common-action-row clearfix">
+          <el-header style="float:right">
+            <router-link to="add">
+              <el-button type="warning" size="small">新增预警规则</el-button>
+            </router-link>
+          </el-header>
+        </div>
         <zzd-table
           v-loading="loading"
           :table-column="tableColumn"
           :table-data="tableData"
           :operate="operate"
-          :type="type"
-          :select-field-unique="selectFieldUnique"
           @handleEdit="handleEdit"
-          @handleDelete="handleDelete"
-          @row-click="rowClick"
-          @selection-change="handleSelectionChange"
+          @handleStatus="handleStatus"
         />
       </div>
       <!-- 分页 -->
@@ -45,185 +44,178 @@
         />
       </div>
     </div>
-    <!-- 编辑页面 -->
-    <rule-add v-else :edit-book-i-d="editBookID" @editClose="editClose" />
   </div>
 </template>
 
 <script>
-  import ZzdTable from "@/components/Base/Table";
-  import ZzdTableSearch from "@/components/Base/TableSearch";
-  import { getList } from "@/api/warning";
-  import RuleAdd from './RuleAdd';
-  export default {
-    name: "RuleList",
-    components: {
-      RuleAdd,
-      ZzdTable,
-      ZzdTableSearch
-    },
-    data() {
-      return {
-        // --搜索 start--
-        searchData: { name: null, age: null, select: null, dataTimeRange: null },
-        searchForm: [
-          {
-            type: "Input",
-            label: "姓名",
-            prop: "name",
-            width: "180px",
-            placeholder: "请输入姓名"
-          },
-          {
-            type: "Select",
-            label: "下拉框",
-            prop: "select",
-            width: "180px",
-            filterable: true,
-            options: [{ value: "选项1", label: "黄金糕" }]//TODO根据接口返回数据
-          },
-          {
-            type: "DateTimeRange",
-            label: "时间",
-            prop: "dataTimeRange",
-            width: "180px"
-          },
-          {
-            type: "Input",
-            label: "年龄",
-            prop: "age",
-            width: "180px",
-            placeholder: "请输入年龄"
-          },
-        ],
-        // --搜索 end--
-        // --分页 start--
-        refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
-        total_nums: 0, // 分组内的用户总数
-        currentPage: 1, // 默认获取第一页的数据
-        pageCount: 10, // 每页10条数据
-        // --分页 end--
-        tableColumn: [
-          { prop: "ruleId", label: "规则编号" },
-          { prop: "dataType", label: "预警类型" },
-          { prop: "name", label: "规则名称" },
-          { prop: "department_name", label: "报警阈值" },
-          { prop: "statusText", label: "状态" },
-          { prop: "updateTimeText", label: "修改时间" }
-        ], // 表头数据
-        tableData: [], // 表格数据
-        operate: [], // 表格按键操作区;
-        type: "selection", // 表格头部多选框
-        selectFieldUnique: "audit_user_id", // 多选取得对应的字段
-        highlightCurrentRow: false,
-        multipleSelection: [], // 选中id
-        editIndex: null, // 编辑的行ss
-        dialogFormVisible: false, // 控制弹窗显示
-        showEdit: false,
-        editBookID: 1
-      };
-    },
-    watch: {
-      // 此处监听多选的id
-      multipleSelection: function() {
-        const arr = [];
-        for (const i in this.multipleSelection) {
-          arr.push(this.multipleSelection[i].audit_user_id);
+import Utils from "@/utils/util.js";
+import ZzdTable from "@/components/Base/Table";
+import ZzdTableSearch from "@/components/Base/TableSearch";
+import { getList, changeStatus } from "@/api/warning";
+export default {
+  name: "RuleList",
+  components: {
+    ZzdTable,
+    ZzdTableSearch
+  },
+  data() {
+    return {
+      // --搜索 start--
+      searchData: { ruleId: null },
+      searchForm: [
+        {
+          type: "Input",
+          label: "规则编号",
+          prop: "ruleId",
+          width: "180px",
+          placeholder: "请输入规则编号"
         }
-        console.log("勾中的id为：" + arr.join());
-      }
-    },
-    async created() {
-      this.loading = true;
-      this.getWarnInfoList();
-      this.operate = [
+      ],
+      // --搜索 end--
+      // --分页 start--
+      refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
+      total_nums: 0, // 分组内的用户总数
+      currentPage: 1, // 默认获取第一页的数据
+      pageCount: 10, // 每页10条数据
+      // --分页 end--
+      tableColumn: [], // 表头数据
+      tableData: [], // 表格数据
+      operate: {} // 表格按键操作区;
+    };
+  },
+  watch: {},
+  async created() {
+    this.loading = true;
+    this.tableColumn = [
+      { prop: "ruleId", label: "规则编号" },
+      { prop: "dataType", label: "预警类型" },
+      { prop: "name", label: "规则名称" },
+      {
+        prop: "ruleItems",
+        label: "报警阈值",
+        /* 处理某一列的数据 */
+        // 1、使用formatter
+        /* formatter: (value) => {
+            let ruleItemsValue = this.handleRuleItems(value);
+            return ruleItemsValue;
+          }, */
+        // 2、使用render
+        render: (h, params) => {
+          let ruleItemsValue = this.handleRuleItems(params.row);
+          return h("span", {
+            domProps: {
+              innerHTML: ruleItemsValue
+            }
+          });
+        }
+      },
+      { prop: "statusText", label: "状态" },
+      { prop: "updateTimeText", label: "修改时间" }
+    ];
+    this.operate = {
+      width: "",
+      data: [
         { name: "编辑", func: "handleEdit", type: "primary" },
-        { name: "删除", func: "handleDelete", type: "danger", auth: "删除图书" }
-      ];
-      this.loading = false;
-    },
-    mounted() {
-      // console.log(getList())
-    },
-    methods: {
-      async getWarnInfoList() {
-        try {
-          const params = { curPage: this.currentPage, perPage: this.pageCount };
-          const WarnInfoList = await getList(params);
-          this.tableData = WarnInfoList.data.ruleList;
-          this.total_nums = parseInt(WarnInfoList.data.total);
-        } catch (error) {
-          if (error.error_code === 10020) {
-            this.tableData = [];
-          }
+        {
+          name: "删除",
+          func: "handleStatus",
+          type: "danger",
+          params: { status: 2 }
+        },
+        {
+          name: "关闭",
+          func: "handleStatus",
+          type: "warning",
+          condition: 1,
+          condationName: "status",
+          params: { status: 3 }
+        },
+        {
+          name: "启用",
+          func: "handleStatus",
+          type: "warning",
+          condition: 3,
+          params: { status: 1 }
         }
-      },
-      handleEdit(val) {
-        console.log("val", val);
-        this.showEdit = true;
-        this.editBookID = val.row.id;
-      },
-      handleDelete(val) {
-        this.$confirm("此操作将永久删除该图书, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(async () => {
-          console.log("val", val.row.audit_user_id);
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      },
-      handleFilter(val) {
-        console.log("val", val);
-      },
-      // 切换table页
-      async handleCurrentChange(val) {
-        this.currentPage = val;
-        await this.getWarnInfoList();
-      },
-      // 切换每页条数
-      async handleSizeChange(val) {
-        this.pageCount = val;
-        await this.getWarnInfoList();
-      },
-      rowClick(row) {
-        console.log("rowclick");
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      editClose() {
-        this.showEdit = false;
-        // this.getBooks()
+      ]
+    };
+    this.getWarnRulesList();
+    this.loading = false;
+  },
+  mounted() {},
+  methods: {
+    // 获取列表数据
+    async getWarnRulesList() {
+      try {
+        const params = { curPage: this.currentPage, perPage: this.pageCount };
+        Object.assign(params, this.searchData);
+        const WarnInfoList = await getList(params);
+        this.tableData = WarnInfoList.data.list;
+        this.total_nums = parseInt(WarnInfoList.data.total);
+      } catch (error) {
+        if (error.error_code === 10020) {
+          this.tableData = [];
+        }
       }
-    }
-  };
-</script>
-
-<style lang="scss" scoped>
-  .panel-default {
-    .search {
-      display: flex;
-      align-items: center;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: flex-end;
-      margin: 20px;
+    },
+    // 编辑
+    handleEdit(val) {
+      this.$router.push("update/" + val.row.ruleId);
+    },
+    // 删除，关闭，开启
+    handleStatus(val) {
+      console.log(val);
+      let text = "";
+      let status = val.params.status;
+      if (status === 1) {
+        text = "开启";
+      } else if (status === 2) {
+        text = "删除";
+      } else if (status === 3) {
+        text = "关闭";
+      }
+      this.$confirm("您确定要" + text + "吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          await changeStatus({
+            ruleId: val.row.ruleId,
+            status: status
+          });
+          this.$message({
+            type: "success",
+            message: text + "成功!"
+          });
+          this.getWarnRulesList();
+        })
+        .catch(() => {});
+    },
+    // 查询
+    async handleFilter(val) {
+      this.searchData = val;
+      await this.getWarnRulesList();
+    },
+    // 切换table页
+    async handleCurrentChange(val) {
+      this.currentPage = val;
+      await this.getWarnRulesList();
+    },
+    // 切换每页条数
+    async handleSizeChange(val) {
+      this.pageCount = val;
+      await this.getWarnRulesList();
+    },
+    handleRuleItems(value) {
+      let ruleItems = value.ruleItems;
+      let texts = "";
+      ruleItems.forEach((item, index, arr) => {
+        let text = item.unitName + "：" + item.value + `</br>`;
+        texts = text + texts;
+      });
+      return texts;
     }
   }
-</style>
+};
+</script>

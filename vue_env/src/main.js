@@ -22,6 +22,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -41,7 +42,9 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 // vue全局挂载返回上一页
-Vue.prototype.back = () => router.back(-1)
+Vue.prototype.back = () => {
+  window.history.length > 1 ? router.go(-1) : router.push('/')
+}
 
 new Vue({
   el: '#app',

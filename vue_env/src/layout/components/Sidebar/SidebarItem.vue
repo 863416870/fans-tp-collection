@@ -1,17 +1,34 @@
 <template>
+  <!-- 路由显示 -->
   <div v-if="!item.hidden" class="menu-wrapper">
-    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)" :target="onlyOneChild.target">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+    <!-- 只有一个children -->
+    <template
+      v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"
+    >
+      <app-link
+        v-if="onlyOneChild.meta"
+        :to="resolvePath(onlyOneChild.path)"
+        :target="onlyOneChild.target"
+      >
+        <el-menu-item
+          :index="resolvePath(onlyOneChild.path)"
+          :class="{'submenu-title-noDropdown':!isNest}"
+        >
+          <item
+            :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)"
+            :title="onlyOneChild.meta.title"
+          />
         </el-menu-item>
       </app-link>
     </template>
+    <!-- 只有一个children -->
 
+    <!-- 不是只有一个的children -->
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
+      <!-- 继续循环当前组件 -->
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
@@ -21,18 +38,19 @@
         class="nest-menu"
       />
     </el-submenu>
+    <!-- 不是只有一个的children -->
   </div>
 </template>
 
 <script>
-import path from 'path'
-import { isExternal } from '@/utils/validate'
-import Item from './Item'
-import AppLink from './Link'
-import FixiOSBug from './FixiOSBug'
+import path from "path";
+import { isExternal } from "@/utils/validate";
+import Item from "./Item";
+import AppLink from "./Link";
+import FixiOSBug from "./FixiOSBug";
 
 export default {
-  name: 'SidebarItem',
+  name: "SidebarItem",
   components: { Item, AppLink },
   mixins: [FixiOSBug],
   props: {
@@ -47,49 +65,53 @@ export default {
     },
     basePath: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
     // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
     // TODO: refactor with render function
-    this.onlyOneChild = null
-    return {}
+    this.onlyOneChild = null;
+    return {};
   },
   methods: {
+    // item.child是否有
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
-          return false
+          // 不显示
+          return false;
         } else {
-          // Temp set(will be used if only has one showing child)
-          this.onlyOneChild = item
-          return true
+          // 显示
+          this.onlyOneChild = item;
+          return true;
         }
-      })
+      });
 
-      // When there is only one child router, the child router is displayed by default
+      // 当只有一个child的时候，直接返回true
       if (showingChildren.length === 1) {
-        return true
+        return true;
       }
 
-      // Show parent if there are no child router to display
+      // 如果没有child,把{path: '', noShowingChildren: true}添加到parent中
+      // 例如./showIndex
       if (showingChildren.length === 0) {
-        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
-        return true
+        this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
+        return true;
       }
-
-      return false
+      return false;
     },
     resolvePath(routePath) {
       if (isExternal(routePath)) {
-        return routePath
+        return routePath;
       }
       if (isExternal(this.basePath)) {
-        return this.basePath
+        return this.basePath;
       }
-      return path.resolve(this.basePath, routePath)
+      // import path from 'path'     //引入node的path模块
+      // path.resolve('/foo/bar', './baz')   // returns '/foo/bar/baz'
+      return path.resolve(this.basePath, routePath);
     }
   }
-}
+};
 </script>

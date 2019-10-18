@@ -34,8 +34,8 @@ export default {
       type: Object,
       default: function() {
         return {
-          right: '50px',
-          bottom: '50px',
+          right: '30px',
+          bottom: '30px',
           width: '40px',
           height: '40px',
           'border-radius': '4px',
@@ -100,6 +100,7 @@ export default {
   display: inline-block;
   text-align: center;
   cursor: pointer;
+  z-index: 15;
 }
 
 .back-to-ceiling:hover {

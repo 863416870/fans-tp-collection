@@ -59,7 +59,7 @@ export default {
   background-image: url(./../../assets/dashboard/bg.png);
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: 30px;
+  // padding-bottom: 30px;
   min-height: 100%;
   // background-color: rgb(240, 242, 245);
 }

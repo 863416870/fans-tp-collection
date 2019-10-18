@@ -18,8 +18,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align:right">
-        <el-button size="medium" @click="btnClose">取 消</el-button>
-        <el-button type="primary" size="medium" @click="submitForm('ruleForm')">提 交</el-button>
+        <el-button size="medium" @click="btnClose('ruleForm')">取 消</el-button>
+        <el-button type="primary" :loading="formBtnLoading" size="medium" @click="submitForm('ruleForm')">提 交</el-button>
       </div>
     </div>
 </template>
@@ -30,6 +30,10 @@
     props: {
       ruleForm: {
         type: Object,
+        required: true
+      },
+      formBtnLoading: {
+        type: Boolean,
         required: true
       }
     },
@@ -48,11 +52,13 @@
             { required: true, message: '请输入排序'},
             { type: 'number', message: '排序必须为数字值'}
           ]
-        }
+        },
+        loading: false
       }
     },
     methods: {
-      btnClose() {
+      btnClose(formName) {
+        this.resetForm()
         this.$emit("btnClose")
       },
       submitForm(formName) {
@@ -65,9 +71,8 @@
           }
         });
       },
-      // 重置
-      reset() {
-        this.$refs.ruleForm.resetFields()
+      resetForm() {
+        this.$refs['ruleForm'].resetFields();
       }
     }
   }

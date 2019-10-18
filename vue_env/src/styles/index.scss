@@ -24,16 +24,25 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
-h1,h2,h3,h4,h5,h6{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 10px 0;
 }
-ul{
+
+ul {
   margin: 0;
   padding: 0;
 }
-li{
+
+li {
   list-style: none;
 }
+
 #app {
   height: 100%;
 }
@@ -203,82 +212,267 @@ aside {
 }
 
 /*滚动条的轨道*/
-::-webkit-scrollbar-track-piece{
-  background-color:#fff;
-  border-radius:0;
+::-webkit-scrollbar-track-piece {
+  background-color: #fff;
+  border-radius: 0;
 }
+
 /* 滚动条整体部分 */
-::-webkit-scrollbar{
-  width:8px;
-  height:8px;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
+
 /* 滚动条滑块 */
-::-webkit-scrollbar-thumb{
-  height:20px;
-  background-color:#999;
-  border-radius:4px;
-  outline:2px solid #fff;
-  outline-offset:-2px;
+::-webkit-scrollbar-thumb {
+  height: 20px;
+  background-color: #999;
+  border-radius: 4px;
+  outline: 2px solid #fff;
+  outline-offset: -2px;
   border: 2px solid #fff;
 }
 
+.span12 {
+  width: 100% !important;
+}
+
+.span11 {
+  width: 91.66666667% !important;
+}
+
+.span10 {
+  width: 83.33333333% !important;
+}
+
+.span9 {
+  width: 75% !important;
+}
+
+.span8 {
+  width: 66.66666667% !important;
+}
+
+.span7 {
+  width: 58.33333333% !important;
+}
+
+.span6 {
+  width: 50% !important;
+}
+
+.span5 {
+  width: 41.66666667% !important;
+}
+
+.span4 {
+  width: 33.33333333% !important;
+}
+
+.span3 {
+  width: 25% !important;
+}
+
+.span2 {
+  width: 16.66666667% !important;
+}
+
+.span1 {
+  width: 8.33333333% !important;
+}
+
 /*页面*/
-.panel-default{
+.panel-default {
   width: 100%;
   margin-bottom: 20px;
   border-radius: 3px;
-  display: table;
   background-color: #21206c;
-	box-shadow: 0px 0px 21px 0px 
-		rgba(3, 3, 70, 0.8);
-	border-radius: 8px;
-  .page-heading{
+  box-shadow: 0px 0px 21px 0px rgba(3, 3, 70, 0.8);
+  border-radius: 8px;
+  padding: 0px 0 20px;
+
+  .page-heading {
     background: #21206c;
     border-radius: 8px 8px 0 0;
     border-bottom: 1px solid #757373;
-    h4{
+
+    h4 {
       margin: 0;
       padding: 13px 10px 13px 20px;
       font-size: 15px;
     }
   }
-  .page-body{
-    padding: 20px 10px;
+
+  .page-body {
+    padding: 20px 20px;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
   }
 }
-.span12 {
-  width: 100% !important;
+
+// 正常表单样式
+.form-col {
+  float: none;
+  margin: auto;
+
+  /* 正常表单样式 */
+  .el-form {
+    margin-top: 30px;
+
+    .el-form-item {
+      margin-bottom: 38px;
+
+      .el-form-item__label {
+        color: #fff;
+      }
+    }
+
+    .el-input__inner {
+      background: #060547;
+      border: 1px solid #818181;
+      color: #fff;
+      height: 40px;
+      line-height: 40px;
+    }
+
+    .el-input__inner::-webkit-input-placeholder {
+      color: #fff;
+    }
+
+    .el-input__inner::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #fff;
+    }
+
+    .el-input__inner:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #fff;
+    }
+
+    .el-input__inner:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #fff;
+    }
+
+    .submit {
+      text-align: center;
+
+      .el-form-item__content {
+        margin-left: 0px !important;
+      }
+    }
+
+    .el-textarea__inner {
+      background: #060547;
+      border: 1px solid #818181;
+      color: #fff;
+    }
+    .el-form-item__content {
+      .el-checkbox-group {
+        .el-checkbox {
+          color: #fff;
+        }
+      }
+    }
+  }
 }
-.span11 {
-  width: 91.66666667% !important;
+
+// 表单disabled
+.el-input.is-disabled .el-input__inner {
+  background-color: #2d2c6d;
+  border-color: #818181;
 }
-.span10 {
-  width: 83.33333333% !important;
+
+// 弹窗表单样式
+.el-dialog__body {
+  .el-form {
+    .el-form-item {
+      .el-form-item__label {
+        color: #4d4d50;
+      }
+    }
+  }
 }
-.span9 {
-  width: 75% !important;
+// 菜单下拉icon
+.el-submenu__icon-arrow{
+  top: 55%;
 }
-.span8 {
-  width: 66.66666667% !important;
-}
-.span7 {
-  width: 58.33333333% !important;
-}
-.span6 {
-  width: 50% !important;
-}
-.span5 {
-  width: 41.66666667% !important;
-}
-.span4 {
-  width: 33.33333333% !important;
-}
-.span3 {
-  width: 25% !important;
-}
-.span2 {
-  width: 16.66666667% !important;
-}
-.span1 {
-  width: 8.33333333% !important;
+
+// 搜索
+.zzd-table-search {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  color: #fff;
+
+  .el-form-item__label {
+    color: #fff;
+  }
+
+  .el-form {
+    display: table;
+
+    .el-input__inner {
+      background: #060547;
+      border: 1px solid #818181;
+      color: #fff;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .el-input__inner::-webkit-input-placeholder {
+      color: #fff;
+    }
+
+    .el-input__inner::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #fff;
+    }
+
+    .el-input__inner:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #fff;
+    }
+
+    .el-input__inner:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #fff;
+    }
+
+
+
+
+    .submit {
+      text-align: center;
+
+      .el-form-item__content {
+        margin-left: 0px !important;
+
+
+
+      }
+    }
+
+    .el-form-item__label {
+      line-height: 30px;
+    }
+
+
+
+    .el-row {
+      float: left;
+    }
+  }
+
+  .search {
+    margin-bottom: 20px;
+  }
+
+  .search-btn {
+    margin-left: 30px;
+  }
 }

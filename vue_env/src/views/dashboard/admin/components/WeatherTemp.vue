@@ -302,7 +302,7 @@ export default {
           },
           z: 0
         }]
-      })
+      },true)
     }
   }
 }
