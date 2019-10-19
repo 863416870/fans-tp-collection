@@ -1,6 +1,6 @@
 <template>
   <div class="backTop" :style="{ right: right + 'px', bottom: bottom + 'px' }" v-if="showBackTop">
-    <i class="iconfont iconscrollTop"  @click="backTop"></i>
+    <i class="iconfont icon-scrollTop"  @click="backTop"></i>
   </div>
 </template>
 

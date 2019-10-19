@@ -13,7 +13,7 @@
                         <!--            <img :src="user.avatar || defaultAvatar" alt="头像">-->
                         <img :src="defaultAvatar" alt="头像">
                         <label class="mask">
-                            <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
+                            <i class="iconfont icon-ziyuan" style="font-size: 20px;"></i>
                             <input
                                     ref="avatarInput"
                                     type="file"
@@ -33,11 +33,11 @@
                     <!--            <span>修改登录密码</span>-->
                     <!--          </li>-->
                     <li class="password" @click="gotoPersonal">
-                        <i class="iconfont iconsuo"></i>
+                        <i class="iconfont icon-suo"></i>
                         <span>个人中心</span>
                     </li>
                     <li class="account" @click="outLogin">
-                        <i class="iconfont iconguanji"></i>
+                        <i class="iconfont icon-guanji"></i>
                         <span>退出账户</span>
                     </li>
                 </ul>

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import SvgIcon from '@/components/SvgIcon'// svg component
+import SvgIcon from '@/components/svg-icon'// svg component
 
 // 全局注册
 Vue.component('svg-icon', SvgIcon)

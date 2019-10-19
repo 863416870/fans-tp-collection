@@ -9,7 +9,7 @@ let homeRouter = [
     route: '/about',
     filePath: 'views/about/About.vue',
     inNav: true,
-    icon: 'iconfont icon-iconset0103',
+    icon: 'iconfont icon-yibiaopan',
     order: 0,
   },
   {
@@ -19,7 +19,7 @@ let homeRouter = [
     route: '/404',
     filePath: 'views/error-page/404.vue',
     inNav: true,
-    icon: 'iconfont icon-rizhiguanli',
+    icon: 'iconfont icon-icon-test',
   },
   {
     title: '个人中心',
