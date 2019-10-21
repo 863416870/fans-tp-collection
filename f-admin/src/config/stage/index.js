@@ -22,6 +22,15 @@ let homeRouter = [
     icon: 'iconfont icon-icon-test',
   },
   {
+    title: 'Table',
+    type: 'view',
+    name: Symbol('table'),
+    route: '/table',
+    filePath: 'views/table/Table.vue',
+    inNav: true,
+    icon: 'iconfont icon-zu',
+  },
+  {
     title: '个人中心',
     type: 'view',
     name: Symbol('personal'),
