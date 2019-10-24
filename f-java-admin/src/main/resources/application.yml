@@ -1,0 +1,113 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /fan
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.105.33.40:8003/env_online?characterEncoding=utf-8&useSSL=false&aotuReconnet=true&serverTimezone=GMT%2b8
+    username: biu
+    password: biu8888
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #用来检测连接是否有效的sql 必须是一个查询语句
+      ##mysql中为 select 'x'
+      ##oracle中为 select 1 from dual
+      validationQuery: select 'x'
+      # 初始化大小，最小，最大
+      initialSize: 5
+      minIdle: 10
+      maxActive: 300
+      # 配置获取连接等待超时的时
+      max-wait: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 600000
+      #申请连接时会执行validationQuery检测连接是否有效，建议关闭，影响性能  默认true
+      testOnBorrow: true
+      #归还连接时会执行validationQuery检测连接是否有效，建议关闭，影响性能  默认true
+      test-on-return: false
+      #连接的时候检测，建议配置为true，不影响性能，并且保证安全性
+      testWhileIdle: true
+      removeAbandoned: true
+      removeAbandonedTimeout: 1800
+      logAbandoned: true
+      # 打开PSCache，并且指定每个连接上PSCache的大小  是否开启PSCache，PSCache对支持游标的数据库性能提升巨大， oracle建议开启，mysql下建议关闭
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 100
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙  #配置扩展插件，常用的插件有=>stat:监控统计  log4j:日志(已经不支持)  wall:防御sql注入
+      filters: stat,wall
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 配置监控服务器
+      stat-view-servlet:
+        #设置控制台管理用户
+        login-username:  admin
+        #设置控制台管理用户 密码
+        login-password:  admin
+        # 是否可以重置数据
+        reset-enable: false
+        url-pattern:  /druid/*
+        # 1.1.10以后的版本需要指定为true 不然默认是关闭的就会出现404
+        enabled: true
+        # 添加IP白名单
+        allow:
+        # 添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
+        deny:
+      web-stat-filter:
+        # 添加过滤规则
+        url-pattern: /*
+        # 忽略过滤格式
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+  # 全局过滤null 不返回
+  jackson:
+    default-property-inclusion: non_null
+  # 配置redis 整合权限缓存
+  data:
+    mongodb:
+      port: 27017
+      username: admin
+      password: admin
+      host: 39.105.33.40
+      authentication-database: admin
+      database: env_online
+      #连接池配置
+      option:
+        max-connection-per-host: 20  #最大连接数 空闲时会放入池中
+        min-connection-per-host: 5   #连接空闲时  连接池中连接数
+        connect-timeout: 10000       #链接超时的毫秒数,0表示不超时,此参数只用在新建一个新链接时，推荐配置10,000.
+        socket-timeout:  0           #此参数表示socket I/O读写超时时间,推荐为不超时，即 0
+        socket-keep-alive: true      #保持连接
+        threads-allowed-to-block-for-connection-multiplier: 10
+        heartbeat-frequency: 3000
+        max-connection-idle-time: 60000 #闲置时间 解决Linux上的mongod进程会关闭5分钟无操作的连接 @link  https://docs.mongodb.com/manual/faq/diagnostics/#does-tcp-keepalive-time-affect-mongodb-deployments
+  #  redis:
+#    host: localhost
+#    port: 6379
+#    jedis:
+#      pool:
+#        min-idle: 0
+#        max-idle: 8
+#        max-active: 8
+#        max-wait:  -1
+#    timeout: 10000
+  main:
+    allow-bean-definition-overriding: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.tianhe.environment.model
